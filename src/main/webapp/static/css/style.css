@@ -1,0 +1,36 @@
+.staticDb{
+    cursor:pointer;
+    padding:5px;
+	display:block;
+	font-family: "tahoma", "ËÎÌו";
+    font-size:9pt; 
+    border: 1px #003399 solid;
+    color: #0066cc;
+    border:none;
+    border-bottom: #93bee2 1px solid;
+    background-color: #ffffff;
+    font-style: normal ;
+    width:auto;
+    height:22px
+}
+.staticDb:hover{
+	font-family: "tahoma", "ËÎÌו"; /*www.52css.com*/
+    font-size: 9pt; 
+    padding:10x;
+    color: #003366;
+    border: 0px #93bee2 solid;
+    border-bottom: #93bee2 1px solid;
+    border-left: #93bee2 1px solid;
+    border-right: #93bee2 1px solid;
+    border-top: #93bee2 1px solid;*/
+    background-image:url(../images/blue_button_bg.gif);
+    background-color: #e8f4ff;
+   cursor:pointer;
+    width:auto;
+    font-style: normal ;
+}
+.tipMsg{
+	color: red;
+	padding:5px;
+	font-size:16px;
+}
