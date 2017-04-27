@@ -95,6 +95,6 @@
 	<!-- 异常处理 -->
 	<bean id="exceptionResolver" class="com.lgame.filter.AjaxExceptionFilter">
 	</bean>
-	
-	
+
+	<bean id="gateServerCache" class="com.lgame.manage.cache.GateServerCache" init-method="start" destroy-method="destroy" scope="singleton"/>
 </beans>

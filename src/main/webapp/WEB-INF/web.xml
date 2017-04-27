@@ -22,6 +22,11 @@
     <filter-name>CheckUserFilter</filter-name>
     <filter-class>com.lgame.filter.CheckUserFilter</filter-class>
   </filter>
+
+  <filter>
+    <filter-name>RepeateRequsetFilter</filter-name>
+    <filter-class>com.lgame.filter.RepeateRequsetFilter</filter-class>
+  </filter>
   <servlet>
     <servlet-name>springServlet</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -31,6 +36,10 @@
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
+  <filter-mapping>
+    <filter-name>RepeateRequsetFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
   <filter-mapping>
     <filter-name>encodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
