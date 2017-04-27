@@ -21,6 +21,7 @@ public class CheckUserFilter  implements Filter {
     private final Set<String> commonList = new HashSet<>();
     private final static String LOGIN_PREFIX = "/login";
     private static String LOGIN_URL = "/login";
+    private static String RemoateGameServer = "/gameserver";
 
     public void init(FilterConfig filterConfig) throws ServletException {
         commonList.add("/static/css");
@@ -36,7 +37,7 @@ public class CheckUserFilter  implements Filter {
         HttpServletResponse response = (HttpServletResponse) resp;
         HttpSession session = request.getSession();
         String uri = request.getServletPath();
-        if(uri.startsWith(LOGIN_PREFIX)){
+        if(uri.startsWith(LOGIN_PREFIX) || uri.startsWith(RemoateGameServer) ){
             chain.doFilter(req, resp);
             return;
         }

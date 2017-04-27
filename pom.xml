@@ -4,7 +4,7 @@
   <groupId>LGameWeb</groupId>
   <artifactId>LGameLogin</artifactId>
   <packaging>war</packaging>
-  <version>1.0-LGameLogin</version>
+  <version>1.0</version>
   <name>LGameLogin Maven Webapp</name>
   <url>http://maven.apache.org</url>
 
