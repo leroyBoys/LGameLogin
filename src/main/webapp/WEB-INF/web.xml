@@ -20,7 +20,7 @@
   </filter>
   <filter>
     <filter-name>CheckUserFilter</filter-name>
-    <filter-class>com.crystalcg.gamedev.filter.CheckUserFilter</filter-class>
+    <filter-class>com.lgame.filter.CheckUserFilter</filter-class>
   </filter>
   <servlet>
     <servlet-name>springServlet</servlet-name>
