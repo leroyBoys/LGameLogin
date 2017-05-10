@@ -19,6 +19,18 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>LCommPack</groupId>
+      <artifactId>LBaseTool</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>LCommModule</artifactId>
+      <groupId>com.lqipai</groupId>
+      <version>1.0</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>LGameLogin</finalName>
