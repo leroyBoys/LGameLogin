@@ -15,7 +15,7 @@
 <script type="text/javascript" src="${basePath }/static/js/main.js"></script>
 <script type="text/javascript" src="${basePath }/static/js/dynamic.js"></script>
 <script type="text/javascript" src="${basePath }/static/js/addMoney.js"></script>
-<title>北京水晶石游戏管理系统</title>
+<title>北京飞羽游戏管理系统</title>
 <script type="text/javascript">
   addStaticDb();
 </script>
@@ -34,7 +34,7 @@
 			<div id="tabs" class="easyui-tabs" fit="true" border="false" plain="true">
 <!-- 			    <table id="grid_id"></table> -->
 <!-- 			     <div id="gridPager"></div> -->
-				<div title="欢迎进入水晶石游戏管理系统" href="${basePath }/default"></div>
+				<div title="欢迎进入飞羽游戏管理系统" href="${basePath }/default"></div>
 			</div>
 		</div>
 </body>

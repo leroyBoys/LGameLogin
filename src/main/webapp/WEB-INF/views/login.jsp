@@ -4,8 +4,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath}"></c:set>
 <c:set var="basePath" value="${pageContext.request.scheme}://${pageContext.request.serverName }:${pageContext.request.serverPort}${path }"></c:set>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
-<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE>北京水晶石游戏管理系统登陆</TITLE>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE>北京水晶石游戏管理系统登陆</TITLE></HEAD>
 <link rel="stylesheet" type="text/css" href="${basePath}/static/css/User_Login.css"/>
 <META http-equiv=Content-Type content="text/html; charset=UTF-8">
 <style type="text/css">

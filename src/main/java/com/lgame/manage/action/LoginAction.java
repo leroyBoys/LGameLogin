@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import com.lgame.manage.service.LoginService;
 import com.lgame.model.User;
+import com.lgame.util.comm.StringTool;
 import com.lgame.utils.AppException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -73,5 +74,16 @@ public class LoginAction {
 	@RequestMapping(value={"/default"},method=RequestMethod.GET)
 	public String getDefault(){
 		return "default";
+	}
+
+	/**
+	 * 跳转登陆页
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value={"/login2"},method=RequestMethod.GET)
+	public String toLogin2(String f,HttpServletRequest request, HttpServletResponse response){
+		return StringTool.isEmpty(f)?"login2":f;
 	}
 }

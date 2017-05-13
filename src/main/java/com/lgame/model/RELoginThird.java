@@ -13,7 +13,6 @@ package com.lgame.model;
 public class RELoginThird {
     private String ThirdKey;
     private String Ukey;
-    private int quzoneId;
     private NetDevice dev;
 
     public String getThirdKey() {
@@ -40,13 +39,4 @@ public class RELoginThird {
         this.dev = dev;
     }
 
-    public int getQuzoneId() {
-        return quzoneId;
-    }
-
-    public void setQuzoneId(int quzoneId) {
-        this.quzoneId = quzoneId;
-    }
-    
-    
 }

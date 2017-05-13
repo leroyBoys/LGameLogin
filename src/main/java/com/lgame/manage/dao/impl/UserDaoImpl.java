@@ -1,5 +1,6 @@
 package com.lgame.manage.dao.impl;
 
+import com.lgame.base.dao.BaseDao;
 import com.lgame.manage.dao.UserDao;
 import com.lgame.util.comm.StringTool;
 import com.module.db.UserDev;
@@ -18,7 +19,7 @@ import java.sql.SQLException;
  * Created by Administrator on 2017/5/7.
  */
 @Repository
-public class UserDaoImpl implements UserDao{
+public class UserDaoImpl extends BaseDao implements UserDao{
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -28,30 +29,28 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
+    public UserInfo getUserInfo(String name, String pwd) {
+        UserInfo info = getUserInfoFromDb("SELECT * FROM user_info WHERE user_name ='"+name+"' and user_pwd = '"+pwd+"'");
+        if(info != null && name.equals(info.getUserName())){
+            return info;
+        }
+        return null;
+    }
+
+    @Override
     public boolean updateUserInfoStatus(int uid, String userName, String pwd, String invite_code) {
-        jdbcTemplate.execute(StringTool.Format("CALL SET_USERINFO_AGAIN({0},{1},{2},{3})", new Object[]{
-                uid, userName, pwd, invite_code
-        }));
-        return true;
+        return this.executeUpdate(jdbcTemplate,"CALL SET_USERINFO_AGAIN (?,?,?,?)",  uid, userName, pwd, invite_code);
     }
 
     @Override
     public int findDevId(String device_mc, String udid) {
         try {
-            return jdbcTemplate.execute("SELECT id FROM user_device WHERE device_mac = "+device_mc+"  AND udid = "+udid, new PreparedStatementCallback<Integer>() {
-                @Override
-                public Integer doInPreparedStatement(PreparedStatement cs) throws SQLException, DataAccessException {
-                    ResultSet rs = cs.executeQuery();
-                    if(rs.next()){
-                        try {
-                            return rs.getInt("id");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    return null;
-                }
-            });
+            Object obj = this.executesOneResult(jdbcTemplate,"SELECT id FROM user_device WHERE device_mac = ?  AND udid = ? ",device_mc,udid);
+            if(obj == null){
+                return 0;
+            }
+
+            return (int) obj;
         } catch (Exception ex) {
         } finally {
         }
@@ -61,14 +60,14 @@ public class UserDaoImpl implements UserDao{
     @Override
     public UserDev insertDev(UserDev dev) {
         try {
-            jdbcTemplate.execute(StringTool.Format("INSERT INTO user_device(device_info,device_name,os_id,device_mac,udid,create_date)VALUES({0},{1},{2},{3},{4},{5})", new Object[]{
+           int id =  this.insert(jdbcTemplate,"INSERT INTO user_device(device_info,device_name,os_id,device_mac,udid,create_date)VALUES(?,?,?,?,?,?)",
                     dev.getDeviceInfo(),
                     dev.getDeviceName(),
                     dev.getOsId(),
                     dev.getDeviceMac(),
                     dev.getUdid(),
-                    dev.getCreateDate()
-            }));
+                    dev.getCreateDate());
+            dev.setId(id);
             return dev;
         } catch (Exception ex) {
         } finally {
@@ -79,9 +78,8 @@ public class UserDaoImpl implements UserDao{
     @Override
     public UserInfo insertUserInfo(UserInfo info) {
         try {
-            jdbcTemplate.execute(StringTool.Format("INSERT INTO user_info(device_id,user_from_type,user_from_id,user_name,user_pwd,role,invite_code,user_status,status_endtime,create_date)"
-                    + "			VALUES({0},{1},{2},{3},{4},{5},{6},{7},{8},{9})", new Object[]{
-                    info.getDeviceId(),
+            int id = this.insert(jdbcTemplate,"INSERT INTO user_info(device_id,user_from_type,user_from_id,user_name,user_pwd,role,invite_code,user_status,status_endtime,create_date)"
+                    + "			VALUES(?,?,?,?,?,?,?,?,?,?)", info.getDeviceId(),
                     info.getUserFromType(),
                     info.getUserFromId(),
                     info.getUserName(),
@@ -90,8 +88,8 @@ public class UserDaoImpl implements UserDao{
                     info.getInviteCode(),
                     info.getUserStatus(),
                     info.getStatusEndTime(),
-                    info.getCreateDate()
-            }));
+                    info.getCreateDate());
+            info.setId(id);
             return info;
         } catch (Exception ex) {
         } finally {
@@ -106,6 +104,7 @@ public class UserDaoImpl implements UserDao{
 
     private UserInfo getUserInfoFromDb(String sql) {
         try {
+
             return jdbcTemplate.execute(sql, new PreparedStatementCallback<UserInfo>() {
                 @Override
                 public UserInfo doInPreparedStatement(PreparedStatement cs) throws SQLException, DataAccessException {
@@ -128,11 +127,16 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public void updateUserInfoLastDev(int uid, int devId) {
-
+        this.executeUpdate(jdbcTemplate,"UPDATE user_info SET device_id = ? WHERE id = ?",devId,uid);
     }
 
     @Override
     public UserInfo getUserInfoByUserFormId(int formId) {
         return getUserInfoFromDb("SELECT * FROM user_info WHERE user_from_id = '"+formId+"'");
+    }
+
+    @Override
+    public boolean updatepwd(int id, String newPwd) {
+        return this.executeUpdate(jdbcTemplate,"UPDATE user_info SET user_pwd = ? WHERE id = ?",newPwd,id);
     }
 }

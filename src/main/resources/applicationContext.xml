@@ -80,5 +80,22 @@
 	<bean id="exceptionResolver" class="com.lgame.filter.AjaxExceptionFilter">
 	</bean>
 
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="jsonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>application/json;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+
+
 	<bean id="gateServerCache" class="com.lgame.manage.cache.GateServerCache" init-method="start" destroy-method="destroy" scope="singleton"/>
 </beans>

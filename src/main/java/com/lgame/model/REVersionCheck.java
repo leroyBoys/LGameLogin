@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class REVersionCheck {
     private String version;
-    private List<String> noticeVersions;
+    private List<Integer> noticeVersions;
     private int gameId;
     private int srcId;
 
@@ -20,11 +20,11 @@ public class REVersionCheck {
     }
 
 
-    public List<String> getNoticeVersions() {
+    public List<Integer> getNoticeVersions() {
         return noticeVersions;
     }
 
-    public void setNoticeVersions(List<String> noticeVersions) {
+    public void setNoticeVersions(List<Integer> noticeVersions) {
         this.noticeVersions = noticeVersions;
     }
 

@@ -63,7 +63,7 @@ public class ServerDaoImpl implements ServerDao {
     @Override
     public Version getVersion(int srcId, int gameId) {
         try {
-            return jdbcTemplate.execute("", new PreparedStatementCallback<Version>() {
+            return jdbcTemplate.execute("SELECT * FROM game_version WHERE src_id = "+srcId+" AND game_id = "+gameId, new PreparedStatementCallback<Version>() {
                 @Override
                 public Version doInPreparedStatement(PreparedStatement cs) throws SQLException, DataAccessException {
                     ResultSet rs = cs.executeQuery();
@@ -85,12 +85,12 @@ public class ServerDaoImpl implements ServerDao {
 
     @Override
     public List<GameNotice> getGameStopingNotice(String ids) {
-        return getGameRuningNotice("",ids);
+        return getGameRuningNotice("SELECT * FROM game_notices WHERE TYPE = 1",ids);
     }
 
     @Override
     public List<GameNotice> getGameRuningNotice(String ids) {
-        return getGameRuningNotice("",ids);
+        return getGameRuningNotice("SELECT * FROM game_notices WHERE TYPE = 2",ids);
     }
 
     private List<GameNotice> getGameRuningNotice(String sql,String ids) {
@@ -119,7 +119,7 @@ public class ServerDaoImpl implements ServerDao {
     @Override
     public GameZone getGameZone(int quzoneId) {
         try {
-            return jdbcTemplate.execute("", new PreparedStatementCallback<GameZone>() {
+            return jdbcTemplate.execute("SELECT * FROM game_server WHERE id ="+quzoneId, new PreparedStatementCallback<GameZone>() {
                 @Override
                 public GameZone doInPreparedStatement(PreparedStatement cs) throws SQLException, DataAccessException {
                     ResultSet rs = cs.executeQuery();
@@ -142,7 +142,7 @@ public class ServerDaoImpl implements ServerDao {
     @Override
     public List<GameZone> getGameZones(int game_versionId) {
         try {
-            return jdbcTemplate.execute("", new PreparedStatementCallback<List<GameZone>>() {
+            return jdbcTemplate.execute("SELECT * FROM game_server WHERE g_v_id ="+game_versionId, new PreparedStatementCallback<List<GameZone>>() {
                 @Override
                 public List<GameZone> doInPreparedStatement(PreparedStatement cs) throws SQLException, DataAccessException {
                     ResultSet rs = cs.executeQuery();

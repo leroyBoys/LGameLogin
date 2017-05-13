@@ -4,6 +4,7 @@ package com.lgame.model;
  * Created by Administrator on 2017/5/7.
  */
 public class NetNotice {
+    private int id;
     private int type;
     private String titleName;
     private String titleDesc;
@@ -55,6 +56,14 @@ public class NetNotice {
 
     public String getEndTime() {
         return endTime;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setEndTime(String endTime) {

@@ -39,7 +39,7 @@ public class StaticDataAction extends BaseAction {
 	 */
 	@RequestMapping("/getAlltable")
 	@ResponseBody
-	public Object getAllTable(){
+		public Object getAllTable(){
 		List<TableHeader> tables = staticDataService.getAllTables();
 		return tables;
 	}

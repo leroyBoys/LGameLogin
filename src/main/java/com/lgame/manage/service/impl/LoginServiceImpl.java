@@ -22,6 +22,7 @@ import com.module.net.DB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -135,8 +136,8 @@ public class LoginServiceImpl implements LoginService {
 			return "登陆设备信息不能为空！";
 		}
 
-		UserInfo info = userService.getUserInfo(vcd.getUserName());
-		if (info == null || !info.getUserPwd().equals(vcd.getPwd())) {
+		UserInfo info = userService.getUserInfo(vcd.getUserName(),vcd.getPwd());
+		if (info == null) {
 			System.out.println(vcd.getUserName() + " 的玩家不存在！");
 			return vcd.getUserName() + " 的玩家不存在！";
 		}
@@ -152,7 +153,7 @@ public class LoginServiceImpl implements LoginService {
 		SELoginThird login = new SELoginThird();
 
 		DB.UK uk = userService.getUk(info.getId());
-		String ip = null;
+		String ip = "";
 		if(uk != null && uk.getIpPort() != null && !uk.getIpPort().trim().isEmpty()){
 			ip = uk.getIpPort();
 		}
@@ -162,8 +163,6 @@ public class LoginServiceImpl implements LoginService {
 		login.setKey(key);
 		login.setIpPort(ip);
 		login.setUid(info.getId());
-		login.setName(info.getUserName());
-		login.setPwd(info.getUserPwd());
 		return login;
 	}
 
@@ -255,4 +254,21 @@ public class LoginServiceImpl implements LoginService {
 		return info;
 	}
 
+	@Override
+	public Object changePwd(HttpSession session, REChangePwd vcd) {
+		String code = vcd.getCode();
+		UserInfo info = userService.getUserInfo(vcd.getName(),vcd.getOldPwd());
+		if (info == null) {
+			return "用户不存在或者密码错误";
+		}
+
+		info.setUserPwd(vcd.getNewPwd());
+		boolean suc = userService.updatepwd(info.getId(), vcd.getNewPwd());
+		if (suc) {
+			System.out.println("===================" + suc);
+			return true;
+		}
+
+		return false;
+	}
 }

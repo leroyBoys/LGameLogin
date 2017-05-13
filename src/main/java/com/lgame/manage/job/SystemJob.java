@@ -21,7 +21,6 @@ import java.util.Date;
  * @author lxh
  */
 @Component()
-@Scope("singleton")
 public class SystemJob {
 
     private static final Logger logger = LoggerFactory.getLogger(SystemJob.class);
@@ -35,7 +34,6 @@ public class SystemJob {
 
     @Scheduled(cron = "*/20 * *  * * ? ")//测试每20秒钟执行一次
     public void fiveSecondJob() {
-        System.out.println("============>执行一次:"+ DateTimeTool.getDateTime(new Date()));
         ServerManager.getIntance().run();
     }
 

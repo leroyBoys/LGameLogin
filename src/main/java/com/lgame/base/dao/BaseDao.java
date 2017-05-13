@@ -130,6 +130,61 @@ public class BaseDao {
 			}
 		});
 	}
+
+	public boolean executeUpdate(JdbcTemplate jdbcTemplate,final String storedProcedure,final Object... obj){
+		return jdbcTemplate.execute(storedProcedure, new CallableStatementCallback<Boolean>() {
+			@Override
+			public Boolean doInCallableStatement(CallableStatement cs) {
+				try {
+					if(obj.length > 0){
+						for(int i = 0; i < obj.length;i++){
+							if(obj[i] == null){
+								cs.setString(i+1,null);
+							}else{
+								cs.setObject(i+1, obj[i]);
+							}
+						}
+					}
+					cs.execute();
+					return true;
+				} catch (Exception e) {
+					logger.error(storedProcedure+":",e);
+				}
+				return null;
+			}
+		});
+	}
+
+	public int insert(JdbcTemplate jdbcTemplate,final String storedProcedure,final Object... obj){
+		return jdbcTemplate.execute(storedProcedure, new CallableStatementCallback<Integer>() {
+			@Override
+			public Integer doInCallableStatement(CallableStatement cs) {
+				try {
+					if(obj.length > 0){
+						for(int i = 0; i < obj.length;i++){
+							if(obj[i] == null){
+								cs.setString(i+1,null);
+							}else{
+								cs.setObject(i+1, obj[i]);
+							}
+						}
+					}
+
+					cs.execute();
+					ResultSet rs = cs.getGeneratedKeys();
+					if(rs.next()){
+						return rs.getInt(1);
+					}
+					return 0;
+				} catch (Exception e) {
+					logger.error(storedProcedure+":",e);
+				}
+				return null;
+			}
+		});
+	}
+
+
 	/**
 	 * 根据条件返回查询结果集合
 	 * @param jdbcTemplate
@@ -199,6 +254,32 @@ public class BaseDao {
 		return resultMap;
 	}
 
+	public Object executesOneResult(JdbcTemplate jdbcTemplate,final String storedProcedure,final Object... obj) {
+		Object resultMap = jdbcTemplate.execute(storedProcedure, new CallableStatementCallback<Object>() {
+			@Override
+			public Object doInCallableStatement(CallableStatement cs) {
+				try {
+					if(obj.length > 0){
+						for(int i = 0; i < obj.length;i++){
+							if(obj[i] == null){
+								cs.setString(i+1,null);
+							}else{
+								cs.setObject(i+1, obj[i]);
+							}
+						}
+					}
+					ResultSet rs = cs.executeQuery();
+					if(rs.next()){
+						return rs.getObject(1);
+					}
+				} catch (Exception e) {
+					logger.error("executesOneResult:",e);
+				}
+				return null;
+			}
+		});
+		return resultMap;
+	}
 	/**
 	 * 通用（返回map）分页排序 （不用对page等数据处理） total-总数量,rows当前页数据
 	 * @param jdbcTemplate

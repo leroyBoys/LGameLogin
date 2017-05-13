@@ -1,2 +1,2 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;padding:10px;font-size:28px;text-align:center">水晶石游戏后台管理系统</div>
+<div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;padding:10px;font-size:28px;text-align:center">飞羽游戏后台管理系统</div>

@@ -10,6 +10,8 @@ import com.module.net.DB;
 public interface UserService {
     public UserInfo getUserInfo(String name);
 
+    public UserInfo getUserInfo(String name,String pwd);
+
     public boolean updateUserInfoStatus(int id, String userName, String userPwd, String inviteCode);
 
     public UserInfo insertUserInfo(UserInfo info);
@@ -25,4 +27,6 @@ public interface UserService {
     public UserInfo getUserInfo(int id);
 
     public UserInfo getUserInfoByUserFormId(int id);
+
+    public boolean updatepwd(int id, String newPwd);
 }

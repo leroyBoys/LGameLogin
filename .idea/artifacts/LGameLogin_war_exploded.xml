@@ -6,6 +6,42 @@
         <element id="directory" name="classes">
           <element id="module-output" name="LGameLogin" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: LCommPack:LBaseTool:1.0" />
+          <element id="library" level="project" name="Maven: com.sun.mail:javax.mail:1.5.4" />
+          <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.4" />
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.4" />
+          <element id="library" level="project" name="Maven: org.apache.poi:poi-excelant:3.9" />
+          <element id="library" level="project" name="Maven: org.apache.poi:poi:3.9" />
+          <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.5" />
+          <element id="library" level="project" name="Maven: org.apache.poi:poi-ooxml:3.9" />
+          <element id="library" level="project" name="Maven: org.apache.poi:poi-ooxml-schemas:3.9" />
+          <element id="library" level="project" name="Maven: org.apache.xmlbeans:xmlbeans:2.3.0" />
+          <element id="library" level="project" name="Maven: stax:stax-api:1.0.1" />
+          <element id="library" level="project" name="Maven: dom4j:dom4j:1.6.1" />
+          <element id="library" level="project" name="Maven: xml-apis:xml-apis:1.0.b2" />
+          <element id="library" level="project" name="Maven: org.apache.ant:ant:1.8.2" />
+          <element id="library" level="project" name="Maven: org.apache.ant:ant-launcher:1.8.2" />
+          <element id="library" level="project" name="Maven: com.lqipai:LCommModule:1.0" />
+          <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:1.2.3" />
+          <element id="library" level="project" name="Maven: ch.qos.logback:logback-access:1.2.3" />
+          <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.2.3" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.25" />
+          <element id="library" level="project" name="Maven: redis.clients:jedis:2.9.0" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-pool2:2.4.2" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.40" />
+          <element id="library" level="project" name="Maven: com.alibaba:druid:1.0.9" />
+          <element id="library" level="project" name="Maven: com.zaxxer:HikariCP-java7:2.4.11" />
+          <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.2.0" />
+          <element id="library" level="project" name="Maven: org.apache.mina:mina-core:2.0.16" />
+          <element id="library" level="project" name="Maven: LCommPack:LSocket:1.0" />
+          <element id="library" level="project" name="Maven: LCommPack:LBaseLog:1.0" />
+          <element id="library" level="project" name="Maven: com.rhcloud.mongodb:mongo-api:0.2.1" />
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.2.4" />
+          <element id="library" level="project" name="Maven: org.mongodb:mongo-java-driver:2.10.1" />
+          <element id="library" level="project" name="Maven: LCommPack:LDBConnection:1.0" />
+        </element>
       </element>
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/target/LGameLogin/META-INF/MANIFEST.MF" />

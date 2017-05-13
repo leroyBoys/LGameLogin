@@ -4,6 +4,9 @@ import com.module.db.UserInfo;
 import org.springframework.stereotype.Repository;
 
 import com.lgame.utils.AppException;
+
+import javax.servlet.http.HttpSession;
+
 @Repository
 public interface LoginService {
 	/**
@@ -21,4 +24,5 @@ public interface LoginService {
 
 	public Object regedister(REregister re);
 
+	public Object changePwd(HttpSession session, REChangePwd vcd);
 }

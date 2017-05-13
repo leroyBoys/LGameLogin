@@ -27,6 +27,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public UserInfo getUserInfo(String name, String pwd) {
+        return userDao.getUserInfo(name,pwd);
+    }
+
+    @Override
     public boolean updateUserInfoStatus(int uid, String userName, String pwd, String invite_code) {
         return userDao.updateUserInfoStatus(uid, userName, pwd, invite_code);
     }
@@ -84,5 +89,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserInfo getUserInfoByUserFormId(int formId) {
         return userDao.getUserInfoByUserFormId(formId);
+    }
+
+    @Override
+    public boolean updatepwd(int id, String newPwd) {
+        return userDao.updatepwd(id,newPwd);
     }
 }
