@@ -5,6 +5,7 @@ import com.lgame.manage.service.FileService;
 import com.lgame.manage.service.LoginService;
 import com.lgame.model.*;
 import com.lgame.util.comm.StringTool;
+import com.lgame.util.json.JsonUtil;
 import com.module.db.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,9 +31,10 @@ public class GameServerAction {
 		return fileService.upLoad(file);
 	}
 
-	@RequestMapping(value={"/register"},method = RequestMethod.POST,consumes = "application/json")
+	@RequestMapping(value={"/register"},method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,String> register(@RequestBody REregister re , HttpServletRequest request, HttpSession session){
+	public Map<String,String> register(String data , HttpServletRequest request, HttpSession session){
+		REregister re = (REregister) JsonUtil.getBeanFromJson(data,REregister.class);
 		Object userInfo = loginService.regedister(re);
 		Map<String,String> ret = new HashMap<>();
 		if (userInfo instanceof UserInfo) {
@@ -44,10 +46,10 @@ public class GameServerAction {
 		return ret;
 	}
 
-	@RequestMapping(value={"/version"},method = RequestMethod.POST,consumes = "application/json")
+	@RequestMapping(value={"/version"},method = RequestMethod.POST)
 	@ResponseBody
-	public SEVersionCheck versionCheck(@RequestBody  REVersionCheck vcd, HttpServletRequest request, HttpSession session){
-		return loginService.check(vcd);
+	public SEVersionCheck versionCheck( String data , HttpServletRequest request, HttpSession session){
+		return loginService.check((REVersionCheck) JsonUtil.getBeanFromJson(data,REVersionCheck.class));
 	}
 
 	/**
@@ -56,22 +58,22 @@ public class GameServerAction {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value={"/login"},method = RequestMethod.POST ,consumes = "application/json")
+	@RequestMapping(value={"/login"},method = RequestMethod.POST )
 	@ResponseBody
-	public Object login(@RequestBody RELogin vcd, HttpServletRequest request, HttpSession session){
-		return loginService.login(vcd);
+	public Object login(String data, HttpServletRequest request, HttpSession session){
+		return loginService.login((RELogin) JsonUtil.getBeanFromJson(data,RELogin.class));
 	}
 
-	@RequestMapping(value={"/login_three"},method = RequestMethod.POST ,consumes = "application/json")
+	@RequestMapping(value={"/login_three"},method = RequestMethod.POST )
 	@ResponseBody
-	public Object login_three(@RequestBody RELoginThird vcd, HttpServletRequest request, HttpSession session){
-		return loginService.login_three(vcd);
+	public Object login_three(String data, HttpServletRequest request, HttpSession session){
+		return loginService.login_three((RELoginThird) JsonUtil.getBeanFromJson(data,RELoginThird.class));
 	}
 
-	@RequestMapping(value={"/modifyPwd"},method = RequestMethod.POST,consumes = "application/json" )
+	@RequestMapping(value={"/modifyPwd"},method = RequestMethod.POST )
 	@ResponseBody
-	public Map<String,String> modifyPwd(@RequestBody  REChangePwd vcd, HttpServletRequest request, HttpSession session){
-		Object msg = loginService.changePwd(session,vcd);
+	public Map<String,String> modifyPwd(String data, HttpServletRequest request, HttpSession session){
+		Object msg = loginService.changePwd(session,(REChangePwd) JsonUtil.getBeanFromJson(data,REChangePwd.class));
 		Map<String,String> ret = new HashMap<>();
 		if(msg instanceof Boolean){
 			ret.put("suc",msg.toString());

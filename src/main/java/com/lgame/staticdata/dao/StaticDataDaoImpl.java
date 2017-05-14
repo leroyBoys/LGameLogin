@@ -12,7 +12,8 @@ import java.util.Map;
 import com.lgame.model.TableHeader;
 import com.lgame.utils.AppException;
 import com.lgame.utils.enums.MailItemType;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.CallableStatementCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,7 +29,7 @@ import com.lgame.utils.enums.ItemType;
 public class StaticDataDaoImpl extends BaseDao implements StaticDataDao{
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	private static Logger logger = Logger.getLogger(StaticDataDaoImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(StaticDataDaoImpl.class);
 
 	public List<TableHeader> getAllTables(){
 		return jdbcTemplate.execute("{call pr_static_all_table()}", new CallableStatementCallback<List<TableHeader>>() {

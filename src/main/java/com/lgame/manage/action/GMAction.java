@@ -1,6 +1,10 @@
 package com.lgame.manage.action;
 
 
+import com.lgame.codec.BdResponse;
+import com.lgame.manage.cache.GmUserSessionManager;
+import com.lgame.manage.cache.ServerConnection;
+import com.lgame.manage.cache.ServerManager;
 import com.lgame.manage.service.FileService;
 import com.lgame.manage.service.LoginService;
 import com.lgame.model.*;
@@ -8,6 +12,7 @@ import com.lgame.model.net.CmdEnum;
 import com.lgame.model.net.CmdMsg;
 import com.lgame.util.comm.StringTool;
 import com.lgame.util.json.JsonUtil;
+import com.lsocket.core.ClientServer;
 import com.lsocket.manager.CMDManager;
 import com.module.db.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,16 +63,59 @@ public class GMAction {
 			}
 		}
 
+		ClientServer clientServer = GmUserSessionManager.clenets.get(msg.getUid());
+		if(clientServer == null){
+			return "uid:"+msg.getUid()+" not login";
+		}
+
 		Object obj = JsonUtil.getBeanFromJson(msg.getMsg(),cmdEnum.getCls());
 
-		synchronized (CmdMsg.class){
+		synchronized (clientServer){
+			BdResponse response = new BdResponse();
+			response.setBaiduObj(obj);
+			response.setCmd(mcd_c);
+			GmUserSessionManager.getInstance().sendMsg(msg.getUid(),response);
 			try {
-				CmdMsg.class.wait(10000);
+				clientServer.wait(10000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 
 		}
-		return "正在请求...";
+		return GmUserSessionManager.getInstance().msgReceIves.get(msg.getUid());
+	}
+
+	@RequestMapping(value={"/first"},method = RequestMethod.POST)
+	@ResponseBody
+	public Object first(CmdMsg msg, HttpServletRequest request, HttpSession session){
+		CmdEnum cmdEnum = CmdEnum.FirstConnect;
+
+		System.out.println("==login:cmd:"+cmdEnum.getCmd());
+		Object obj = JsonUtil.getBeanFromJson(msg.getMsg(),cmdEnum.getCls());
+
+		ServerConnection serverConnection = ServerManager.getIntance().getServerConnection(msg.getServerId());
+		if(serverConnection == null){
+			return "cant not find  serverId:"+msg.getServerId();
+		}else {
+			System.out.println("serverId"+msg.getServerId()+" status:"+serverConnection.getRunStatus());
+		}
+		GmUserSessionManager.getInstance().connect(msg.getUid(),msg.getKey(),serverConnection);
+		ClientServer clientServer = GmUserSessionManager.clenets.get(msg.getUid());
+		if(clientServer == null){
+			return "uid:"+msg.getUid()+" not login";
+		}
+		synchronized (clientServer){
+			BdResponse response = new BdResponse();
+			response.setBaiduObj(obj);
+			response.setCmd(cmdEnum.getCmd());
+			GmUserSessionManager.getInstance().sendMsg(msg.getUid(),response);
+			try {
+				clientServer.wait(10000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		}
+		return GmUserSessionManager.getInstance().msgReceIves.get(msg.getUid());
 	}
 }

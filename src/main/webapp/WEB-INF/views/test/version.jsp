@@ -61,22 +61,79 @@
 	}
 </style>
 
-<script type="text/javascript" >
 
-</script>
 <body>
 <div  id="content">
 
 	<table class="gridtable">
+		<script type="text/javascript" >
+			function getVerion() {
+				var url = formatUrl("/gameserver/version");
+
+				var data = jsonStr({ version: "0.1.1"
+					, gameId: $("#gameId").val()
+					, srcId: $("#srcId").val()
+				});
+
+				$.post(url,{
+						data:data
+						}
+						 ,function(data){
+							$("#target2").val(jsonStr(data));
+						});
+			}
+			
+			
+			function login() {
+				//登录
+				var url =  formatUrl("/gameserver/login");
+				var data = jsonStr({ userName: "tome"
+					, pwd: "sdfsdf"
+					,dev:{
+						plat:"iphone",
+						udid:"xxddsp12",
+						mac:"01-5953-xa",
+						info:"testinfo"
+					}
+				}); //转JSON字符串
+				$.post(url,
+						{ data: data
+						} ,function(s){
+							$("#target2").val(jsonStr(s));
+						});
+			}
+
+			function connect() {
+				//登录
+				var url =  formatUrl("/gm/first");
+				var data = { uid: $("#uid").val()
+					, cmd: 2,
+					key: $("#key").val(),
+					serverId: $("#serverId").val(),
+				}; //转JSON字符串
+				$.post(url,
+						{ data: data
+						} ,function(s){
+							$("#target2").val(jsonStr(s));
+						});
+			}
+		</script>
+
 		<tr>
 			<td>注意：</td><td>jsonStr(obj) 返回json字符串;key为空的时候获得相应cmd的json</td>
 		</tr>
 		<tr>
-			<td><input value="执行第一个" type="button"  onclick="doNow()"/></td>
-			<td><input value="发送请求" type="button"  onclick="doNow2()"/></td>
+			<td><input value="执行内容1代码" type="button"  onclick="doNow()"/></td>
+			<td><input value="获取version" type="button"  onclick="getVerion()"/>
+				<input value="登录" type="button"  onclick="login()"/>
+				<input value="连接服务器" type="button"  onclick="connect()"/>
+			</td>
 		</tr>
 		<tr>
-			<td>cmd:</td><td><input type="text" id = "cmd"/></td>
+			<td>srcId:</td><td><input type="text" id = "srcId" value="1"/>  gameId:<input type="text" value="1	" id = "gameId"/></td>
+		</tr>
+		<tr>
+			<td>cmd:</td><td><input type="text" id = "cmd"/>  uid:<input type="text" tid="uid"/>   serverId:<input type="text" id="serverId"/></td>
 		</tr>
 		<tr>
 			<td>key:</td><td><input type="text" id = "key"/></td>

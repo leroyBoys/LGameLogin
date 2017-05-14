@@ -7,7 +7,6 @@ import com.lgame.util.comm.FormatDataTool;
 import com.module.net.DB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 /**
  * Created by Administrator on 2017/5/7.

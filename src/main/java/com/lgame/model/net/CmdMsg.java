@@ -4,6 +4,8 @@ package com.lgame.model.net;
  * Created by Administrator on 2017/5/13.
  */
 public class CmdMsg {
+    private int uid;
+    private int serverId;
     private int modlue;
     private int cmd;
     private String key;
@@ -27,6 +29,22 @@ public class CmdMsg {
 
     public int getModlue() {
         return modlue;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public int getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(int serverId) {
+        this.serverId = serverId;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     public void setModlue(int modlue) {

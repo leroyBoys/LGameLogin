@@ -3,6 +3,7 @@ package com.lgame.manage.cache;
 import com.lgame.codec.RequestDecoderLocal;
 import com.lgame.codec.ResponseEncoderLocal;
 import com.logger.log.SystemLogger;
+import com.lsocket.config.SocketConfig;
 import com.lsocket.core.ClientServer;
 import com.lsocket.listen.HandlerListen;
 import com.lsocket.util.DefaultSocketPackage;
@@ -28,7 +29,8 @@ public class ServerConnection extends GameServer implements Runnable {
         if(clientServer != null){
             return;
         }
-        clientServer = new ClientServer(this.getIp(),this.getPort(),2000,new ResponseEncoderLocal(),new RequestDecoderLocal(),serverMonitor);
+
+        clientServer = new ClientServer(this.getIp(),this.getPort(),2000,this.getKey(),new ResponseEncoderLocal(),new RequestDecoderLocal(),serverMonitor);
     }
 
     public void check(long curTime){
@@ -100,7 +102,7 @@ public class ServerConnection extends GameServer implements Runnable {
             if(clientServer.getSession() != null){
                 serverMonitor.session = clientServer.getSession();
                 runStatus = ServerStatus.notFull;
-                SystemLogger.info(this.getClass(),"ip:"+this.getIp()+" port:"+this.getPort()+" connected suc!");
+                SystemLogger.info(this.getClass(),"============================>ip:"+this.getIp()+" port:"+this.getPort()+" connected suc!");
             }else {
                 errorNum++;
                 if(errorNum/20 == 1){
@@ -114,7 +116,8 @@ public class ServerConnection extends GameServer implements Runnable {
         }
     }
 
-    class ServerMonitor implements HandlerListen {
+   public static class ServerMonitor implements HandlerListen {
+       private int uid;
         protected long lastHeartTime = 0;
         protected int connections;
         protected IoSession session = new ServerSession();
@@ -122,7 +125,15 @@ public class ServerConnection extends GameServer implements Runnable {
         protected void init(){
         }
 
-        protected void reset(){
+       public int getUid() {
+           return uid;
+       }
+
+       public void setUid(int uid) {
+           this.uid = uid;
+       }
+
+       protected void reset(){
             connections = 0;
             lastHeartTime = 0;
             session = new ServerSession();
@@ -133,8 +144,12 @@ public class ServerConnection extends GameServer implements Runnable {
         }
 
         @Override
-        public void receiveMsg() {
+        public void receiveMsg(Object object) {
             lastHeartTime = System.currentTimeMillis();
+            if(uid == 0l){
+                return;
+            }
+            GmUserSessionManager.getInstance().receive(uid,object);
         }
 
     }

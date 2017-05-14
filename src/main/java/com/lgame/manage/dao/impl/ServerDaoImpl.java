@@ -7,11 +7,11 @@ package com.lgame.manage.dao.impl;
 
 import com.lgame.manage.cache.ServerConnection;
 import com.lgame.manage.dao.ServerDao;
-import com.lgame.staticdata.dao.StaticDataDaoImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.module.db.GameNotice;
 import com.module.db.GameZone;
 import com.module.db.Version;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -32,7 +32,7 @@ import java.util.List;
 public class ServerDaoImpl implements ServerDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private static Logger logger = Logger.getLogger(ServerDaoImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(ServerDaoImpl.class);
 
     @Override
     public List<ServerConnection> getGateServers() {

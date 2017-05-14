@@ -14,7 +14,8 @@ import java.util.Map;
 
 import com.lgame.utils.AppException;
 import com.lgame.utils.DataUtil;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.CallableStatementCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -23,7 +24,7 @@ import com.lgame.utils.Const;
 
 @Repository
 public class BaseDao {
-	private static Logger logger = Logger.getLogger(BaseDao.class);
+	private static Logger logger = LoggerFactory.getLogger(BaseDao.class);
 	/**
 	 * 根据存储过程或者sql获得表结构信息
 	 * @param jdbcTemplate
