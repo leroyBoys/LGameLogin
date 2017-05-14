@@ -4,6 +4,7 @@ package com.lgame.manage.action;
 import com.lgame.manage.service.FileService;
 import com.lgame.manage.service.LoginService;
 import com.lgame.model.*;
+import com.lgame.util.comm.StringTool;
 import com.module.db.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -78,4 +80,5 @@ public class GameServerAction {
 		}
 		return ret;
 	}
+
 }

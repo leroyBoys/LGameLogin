@@ -12,9 +12,8 @@
 				    <a class="staticDb" title="添加装备" rel="添加装备" url ="/email/addEquipment">添加装备</a>
 				    <a class="staticDb" title="添加消耗道具" rel="添加消耗道具" url ="/email/addOrdinaryItem">添加消耗道具</a>
 				</div>
-				<div title="游戏客服管理" style="padding:0px;overflow:show">
-				    <a class="staticDb" title="货币资源日志" rel="货币资源日志" url="log/toVirtualLog">货币资源日志</a>
-				    <a class="staticDb" title="物品道具日志" rel="物品道具日志" url="log/toItemLog">物品道具日志信息</a>
+				<div title="GM" style="padding:0px;overflow:show">
+				    <a class="staticDb" title="消息接口测试" rel="消息测试" url="/gm/ts">消息接口测试</a>
 				</div>
 			</div>
 </div>

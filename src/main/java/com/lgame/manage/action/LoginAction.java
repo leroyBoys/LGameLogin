@@ -76,14 +76,4 @@ public class LoginAction {
 		return "default";
 	}
 
-	/**
-	 * 跳转登陆页
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	@RequestMapping(value={"/login2"},method=RequestMethod.GET)
-	public String toLogin2(String f,HttpServletRequest request, HttpServletResponse response){
-		return StringTool.isEmpty(f)?"login2":f;
-	}
 }

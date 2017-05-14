@@ -16,102 +16,88 @@
 <script type="text/javascript" src="${basePath }/static/js/util/jquery-1.8.0.min.js"></script>
 <META http-equiv=Content-Type content="text/html; charset=UTF-8">
 <style type="text/css">
-table.gridtable {
+	table.gridtable {
 
-	font-family: verdana,arial,sans-serif;
+		font-family: verdana,arial,sans-serif;
 
-	font-size:11px;
+		font-size:11px;
 
-	color:#333333;
+		color:#333333;
 
-	border-width: 1px;
+		border-width: 1px;
 
-	border-color: #666666;
+		border-color: #666666;
 
-	border-collapse: collapse;
+		border-collapse: collapse;
 
-}
+	}
 
-table.gridtable th {
+	table.gridtable th {
 
-	border-width: 1px;
+		border-width: 1px;
 
-	padding: 8px;
+		padding: 8px;
 
-	border-style: solid;
+		border-style: solid;
 
-	border-color: #666666;
+		border-color: #666666;
 
-	background-color: #dedede;
+		background-color: #dedede;
 
-}
+	}
 
-table.gridtable td {
+	table.gridtable td {
 
-	border-width: 1px;
+		border-width: 1px;
 
-	padding: 8px;
+		padding: 8px;
 
-	border-style: solid;
+		border-style: solid;
 
-	border-color: #666666;
+		border-color: #666666;
 
-	background-color: #ffffff;
+		background-color: #ffffff;
 
-}
+	}
 </style>
 
 <script type="text/javascript" >
-	function jsonStr(obj){
-		return JSON.stringify(obj); //转JSON字符串
-	}
-
-	function doNow() {
-		console.log("--------------------->"+$("#target1").val());
-		eval($("#target1").val());
-	}
-
-	function doNow2() {
-		var url = "http://localhost:8080/gameserver/register";
-		var data = JSON.stringify({ name: "0.1.0"
-			, pwd: "1"
-			, code: "2"
-			,dev:{
-				plat:"andorooid",
-				udid:"xxdds0012",
-				mac:"01-52-23-xa",
-				info:"testinfo"
-			}
-		}); //转JSON字符串
-		console.log("zhuanjson =======>"+data);
-
-		$.ajax({
-			url : url,
-			type : "POST",
-			data :data ,
-			dataType: 'json',
-			contentType:'application/json;charset=UTF-8',
-			success : function(result) {
-				console.log(result);
-			}
-		});
-	}
 
 </script>
 <body>
-<table class="gridtable">
-	<tr>
-		<td>内容1:</td><td><textarea rows="15" cols="150"  id="target1">
+<div  id="content">
+
+	<table class="gridtable">
+		<tr>
+			<td>注意：</td><td>jsonStr(obj) 返回json字符串;key为空的时候获得相应cmd的json</td>
+		</tr>
+		<tr>
+			<td><input value="执行第一个" type="button"  onclick="doNow()"/></td>
+			<td><input value="发送请求" type="button"  onclick="doNow2()"/></td>
+		</tr>
+		<tr>
+			<td>cmd:</td><td><input type="text" id = "cmd"/></td>
+		</tr>
+		<tr>
+			<td>key:</td><td><input type="text" id = "key"/></td>
+		</tr>
+		<tr>
+			<td>id:</td><td><input type="text" id = "id"/></td>
+		</tr>
+		<tr>
+			<td>内容1:</td><td><textarea rows="15" cols="150"  id="target1">
 
 		</textarea></td>
-	</tr>
+		</tr>
+		<tr>
+			<td>返回:</td><td><textarea rows="10" cols="150"  id="target2">
 
-	<tr>
-		<td><input id="clear" value="执行第一个" type="button"  onclick="doNow()"/></td><td><input value="执行第二个" type="button" onclick="doNow2()"/></td>
-	</tr>
-
-</table>
+		</textarea></td>
+		</tr>
 
 
+	</table>
+
+</div>
 </body>
 </html>

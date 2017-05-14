@@ -156,6 +156,10 @@ public class LoginServiceImpl implements LoginService {
 		String ip = "";
 		if(uk != null && uk.getIpPort() != null && !uk.getIpPort().trim().isEmpty()){
 			ip = uk.getIpPort();
+			ServerConnection serverConnection = ServerManager.getIntance().getServerConnection(ip);
+			if(serverConnection == null || serverConnection.getRunStatus() == ServerConnection.ServerStatus.closed){
+				ip="";
+			}
 		}
 
 		String key = Tools.getCharacterAndNumber(6);

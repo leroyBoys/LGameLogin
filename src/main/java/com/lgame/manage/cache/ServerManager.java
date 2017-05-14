@@ -10,6 +10,7 @@ public class ServerManager {
     private final static ServerManager serverManager = new ServerManager();
     private volatile boolean isRun = false;
     private Map<Integer,ServerConnection> serverPool = new HashMap<>();
+    private Map<String,ServerConnection> serverIpKeyPool = new HashMap<>();
     private LinkedList<ServerConnection> canUseServer = new LinkedList<>();
     private Set<ServerConnection> canUseServerSet = new HashSet<>();
 
@@ -27,7 +28,12 @@ public class ServerManager {
         for(ServerConnection serverConnection:servers){
             serverPool.put(serverConnection.getId(),serverConnection);
             serverConnection.check(0);
+            serverIpKeyPool.put(serverConnection.getIp()+":"+serverConnection.getPort(),serverConnection);
         }
+    }
+
+    public ServerConnection getServerConnection(String ipPort){
+        return serverIpKeyPool.get(ipPort);
     }
 
     public ServerConnection getCanUseServer(){
