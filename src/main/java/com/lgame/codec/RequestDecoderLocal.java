@@ -3,7 +3,6 @@ package com.lgame.codec;
 import com.baidu.bjf.remoting.protobuf.Codec;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
 import com.lgame.model.net.CmdEnum;
-import com.lgame.util.encry.ZipTool;
 import com.lsocket.codec.RequestDecoderClient;
 import com.lsocket.manager.CMDManager;
 import com.module.net.NetParentOld;
@@ -46,7 +45,7 @@ public class RequestDecoderLocal extends RequestDecoderClient {
             if(commond.getObj() != null){//秘钥验证
 
                 data = commond.getObj().toByteArray();
-                data = ZipTool.uncompressBytes(data);//解压缩
+           //     data = ZipTool.uncompressBytes(data);//解压缩
             }
           /*  Request request = cmdModule.getRequset(data,module,cmd,commond.getSeq());
             out.write(request);*/

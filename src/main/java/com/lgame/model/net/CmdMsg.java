@@ -6,7 +6,7 @@ package com.lgame.model.net;
 public class CmdMsg {
     private int uid;
     private int serverId;
-    private int modlue;
+    private int module;
     private int cmd;
     private String key;
     private String msg;
@@ -27,9 +27,6 @@ public class CmdMsg {
         return key;
     }
 
-    public int getModlue() {
-        return modlue;
-    }
 
     public int getUid() {
         return uid;
@@ -47,8 +44,12 @@ public class CmdMsg {
         this.uid = uid;
     }
 
-    public void setModlue(int modlue) {
-        this.modlue = modlue;
+    public int getModule() {
+        return module;
+    }
+
+    public void setModule(int module) {
+        this.module = module;
     }
 
     public void setKey(String key) {

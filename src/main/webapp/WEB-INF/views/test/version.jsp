@@ -76,14 +76,14 @@
 				});
 
 				$.post(url,{
-						data:data
+							data:data
 						}
-						 ,function(data){
+						,function(data){
 							$("#target2").val(jsonStr(data));
 						});
 			}
-			
-			
+
+
 			function login() {
 				//登录
 				var url =  formatUrl("/gameserver/login");
@@ -108,14 +108,30 @@
 				var url =  formatUrl("/gm/first");
 				var data = { uid: $("#uid").val()
 					, cmd: 2,
+					msg: $("#target1").val(),
 					key: $("#key").val(),
 					serverId: $("#serverId").val(),
 				}; //转JSON字符串
-				$.post(url,
-						{ data: data
-						} ,function(s){
-							$("#target2").val(jsonStr(s));
-						});
+
+				console.log(data);
+				$.post(url,data ,function(s){
+					$("#target2").val(jsonStr(s));
+				});
+			}
+
+			function getJsonsss() {
+				//登录
+				var url =  formatUrl("/gm/testmsg");
+				var data = { uid: $("#uid").val(),
+					module:$("#module").val()
+					, cmd: $("#cmd").val(),
+					key: ""
+				}; //转JSON字符串
+
+
+				$.post(url,data ,function(s){
+					$("#target1").val(jsonStr(s));
+				});
 			}
 		</script>
 
@@ -127,14 +143,20 @@
 			<td><input value="获取version" type="button"  onclick="getVerion()"/>
 				<input value="登录" type="button"  onclick="login()"/>
 				<input value="连接服务器" type="button"  onclick="connect()"/>
+				<input value="获得json" type="button"  onclick="getJsonsss()"/>
 			</td>
 		</tr>
 		<tr>
 			<td>srcId:</td><td><input type="text" id = "srcId" value="1"/>  gameId:<input type="text" value="1	" id = "gameId"/></td>
 		</tr>
 		<tr>
-			<td>cmd:</td><td><input type="text" id = "cmd"/>  uid:<input type="text" tid="uid"/>   serverId:<input type="text" id="serverId"/></td>
+			<td>cmd:</td><td><input type="text" id = "cmd"/>  module: <input type="text" id = "module"/> </td>
 		</tr>
+
+		<tr>
+			<td>uid:</td><td> <input type="text" id="uid"/>   serverId:<input type="text" id="serverId"/></td>
+		</tr>
+
 		<tr>
 			<td>key:</td><td><input type="text" id = "key"/></td>
 		</tr>

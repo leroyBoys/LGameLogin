@@ -8,6 +8,7 @@ import com.lgame.util.PrintTool;
 import com.lgame.util.comm.Tools;
 import com.lgame.util.encry.MD5Tool;
 import com.lgame.util.encry.ZipTool;
+import com.lgame.util.json.JsonUtil;
 import com.lsocket.codec.ResponseEncoderClient;
 import com.lsocket.manager.CMDManager;
 import com.module.net.NetParentOld;
@@ -73,6 +74,7 @@ public class ResponseEncoderLocal extends ResponseEncoderClient {
         com.setStatus(response.getStatus());
         int seq = response.getSeq();
         com.setSeq(seq);
+        com.setUid(998);
 
         Message obj = response.getObj();
 
@@ -81,6 +83,7 @@ public class ResponseEncoderLocal extends ResponseEncoderClient {
             datas = obj.toByteArray();
             PrintTool.info("---Send---cmd:"+ CMDManager.getCmd(com.getCmd())+"  module:"+CMDManager.getModule(com.getCmd())+"  "+datas.toString());
         }else if(response.getBaiduObj() != null){
+            PrintTool.info("---Send---cmd:"+ CMDManager.getCmd(com.getCmd())+"  module:"+CMDManager.getModule(com.getCmd()) +"====>"+ JsonUtil.getJsonFromBean(response.getBaiduObj()));
             datas = encode(response.getBaiduObj(),response.getBaiduObj().getClass());
         }else {
             PrintTool.info("---Send---cmd:"+ CMDManager.getCmd(com.getCmd())+"  module:"+CMDManager.getModule(com.getCmd()));

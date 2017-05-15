@@ -9,8 +9,10 @@ import java.util.Map;
  * Created by Administrator on 2017/5/13.
  */
 public enum CmdEnum {
-    FirstConnect(CMDManager.getCmd_M(0,2),NetFirstConnect.class,NetFirstConnect.class),
-    CreateRoom(CMDManager.getCmd_M(10,1),NetCreateRoom.class,NetCreateRoom.class);
+    FirstConnect(CMDManager.getCmd_M(0,2),NetFirstConnect.class, RQConnect.class),
+    CreateRoom(CMDManager.getCmd_M(10,1),RPCreateRoom.class,RQCreateRoom.class),
+    JoinRoom(CMDManager.getCmd_M(10,2),RPEnterRoom.class,RQEnterRoom.class),
+    ;
 
     private final int cmd;
     private final Class cls;

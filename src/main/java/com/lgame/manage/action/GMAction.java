@@ -48,7 +48,7 @@ public class GMAction {
 	@RequestMapping(value={"/testmsg"},method = RequestMethod.POST)
 	@ResponseBody
 	public Object testMsg(CmdMsg msg, HttpServletRequest request, HttpSession session){
-		int mcd_c = CMDManager.getCmd_M(msg.getModlue(),msg.getCmd());
+		int mcd_c = CMDManager.getCmd_M(msg.getModule(),msg.getCmd());
 		CmdEnum cmdEnum = CmdEnum.datas.get(mcd_c);
 		if(cmdEnum == null){
 			return  "gm not config cmd:"+msg.getCmd();
