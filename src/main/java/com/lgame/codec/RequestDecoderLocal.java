@@ -56,7 +56,7 @@ public class RequestDecoderLocal extends RequestDecoderClient {
                 return input.hasRemaining();
             }
 
-            out.write(decode(data,cmdEnum.getCls()));
+            out.write(decode(data,cmdEnum.getRecCls()));
             return input.hasRemaining();
         }
         return false;
