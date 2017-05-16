@@ -43,6 +43,7 @@
 		<script type="text/javascript">
 
 			var logData = {all:0,cur:0};
+			var timeVes = 1500;
 			$(document).ready(function(){
 				function checkLog() {
 
@@ -54,34 +55,37 @@
 							$.post(url,{
 								type:$(this).attr("rel")
 							} ,function(slist){
+								console.log(slist);
 								if(slist == null || slist.length == 0){
-									console.log("======>empty");
+									console.log("======>empty"+ slist);
 									logData.cur = logData.cur+1;
 									if(logData.cur == logData.all){
 										logData.cur = 0;
-										setTimeout(checkLog, 2000);
+										timeVes = 5000;
+										setTimeout(checkLog, timeVes);
 									}
 									return
 								}
 								for(var line in slist){
-									$(this).append("<p>"+slist[line]+"</p>");
+									this.append("<p>"+slist[line]+"</p>");
 								}
 
 								logData.cur = logData.cur+1;
 								if(logData.cur == logData.all){
 									logData.cur = 0;
-									setTimeout(checkLog, 2000);
+									timeVes = 2000;
+									setTimeout(checkLog, timeVes);
 								}
 							});
 
 						});
 
 					}else {
-						setTimeout(checkLog, 2000);
+						setTimeout(checkLog, timeVes);
 					}
 				}
 
-				setTimeout(checkLog, 1500);
+				setTimeout(checkLog, timeVes);
 			});
 		</script>
 </body>

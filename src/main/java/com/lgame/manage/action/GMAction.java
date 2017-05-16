@@ -148,7 +148,9 @@ public class GMAction {
 			readUpdateFile = new ReadUpdateFile(path);
 			session.setAttribute("readUpdateFile"+type,readUpdateFile);
 		}
-		return  FileTool.readNewUpdaeLines(readUpdateFile,"UTF-8");
+
+		List<String> upateContent = FileTool.readNewUpdaeLines(readUpdateFile,"UTF-8");
+		return upateContent;
 	}
 
 	@RequestMapping(value={"/tolog"},method=RequestMethod.GET)
