@@ -52,13 +52,13 @@
 						logData.all = $(".logContent").length;
 
 						$(".logContent").each(function(){
-							var _this_logDive = $(this);
+							var _this_logDive[ $(this).attr("rel")] = $(this);
 
 							$.post(url,{
 								type:$(this).attr("rel")
 							} ,function(slist){
 								console.log(slist);
-								if(slist == null || slist.length == 0){
+								if(slist == null || slist.data.length == 0){
 									console.log("======>empty"+ slist);
 									logData.cur = logData.cur+1;
 									if(logData.cur == logData.all){
@@ -68,8 +68,8 @@
 									}
 									return
 								}
-								for(var line in slist){
-									_this_logDive.append("<p>"+slist[line]+"</p>");
+								for(var line in slist.data){
+									_this_logDive[slist.type].append("<p>"+slist.data[line]+"</p>");
 								}
 
 								logData.cur = logData.cur+1;

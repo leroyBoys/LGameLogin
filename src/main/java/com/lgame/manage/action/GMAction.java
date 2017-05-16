@@ -17,6 +17,7 @@ import com.lgame.util.json.JsonUtil;
 import com.lsocket.core.ClientServer;
 import com.lsocket.manager.CMDManager;
 import com.module.db.UserInfo;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -149,8 +150,11 @@ public class GMAction {
 			session.setAttribute("readUpdateFile"+type,readUpdateFile);
 		}
 
+		Map<String,Object> datas = new HashMap();
 		List<String> upateContent = FileTool.readNewUpdaeLines(readUpdateFile,"UTF-8");
-		return upateContent;
+		datas.put("data",upateContent);
+		datas.put("type",type);
+		return datas;
 	}
 
 	@RequestMapping(value={"/tolog"},method=RequestMethod.GET)
