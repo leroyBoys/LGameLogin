@@ -16,6 +16,7 @@
 <script type="text/javascript" src="${basePath }/static/js/dynamic.js"></script>
 <script type="text/javascript" src="${basePath }/static/js/addMoney.js"></script>
 	<script type="text/javascript" src="${basePath }/static/js/gm.js" charset="utf-8"></script>
+	<script type="text/javascript" src="${basePath }/static/js/logUpdate.js" charset="utf-8"></script>
 <title>北京飞羽游戏管理系统</title>
 <script type="text/javascript">
   addStaticDb();

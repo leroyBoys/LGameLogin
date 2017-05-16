@@ -11,6 +11,8 @@ import com.lgame.model.*;
 import com.lgame.model.net.CmdEnum;
 import com.lgame.model.net.CmdMsg;
 import com.lgame.util.comm.StringTool;
+import com.lgame.util.file.FileTool;
+import com.lgame.util.file.ReadUpdateFile;
 import com.lgame.util.json.JsonUtil;
 import com.lsocket.core.ClientServer;
 import com.lsocket.manager.CMDManager;
@@ -128,5 +130,30 @@ public class GMAction {
 
 		}
 		return GmUserSessionManager.getInstance().getMsg(msg.getUid());
+	}
+
+
+	@RequestMapping(value={"/log"})
+	@ResponseBody
+	public Object log(int type, HttpServletRequest request, HttpSession session){
+		String path  = "/root/myapp/apps/game/logs/wrapper.log";
+
+		if(type == 1){
+			path = "/root/myapp/server/apache-tomcat-7.0.77/logs/catalina.out";
+		}
+
+		ReadUpdateFile readUpdateFile = (ReadUpdateFile) session.getAttribute("readUpdateFile");
+		if(readUpdateFile == null){
+			readUpdateFile = new ReadUpdateFile(path);
+			session.setAttribute("readUpdateFile",readUpdateFile);
+		}
+		return FileTool.readNewUpdaeLines(readUpdateFile);
+	}
+
+	@RequestMapping(value={"/tolog"},method=RequestMethod.GET)
+	public String toMain(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+		String type = request.getParameter("type");
+		session.setAttribute("logType",type);
+		return  "log/serverLog";
 	}
 }

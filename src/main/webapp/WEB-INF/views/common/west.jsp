@@ -6,13 +6,11 @@
 				<div title="用户信息管理"  id="dynamicDb" style="padding:0px;overflow:show">
 <!-- 				    <div id="character" title = "user_character" onclick = addDynamicDb()>君主表信息</div> -->
 				    <a class="staticDb" title="君主表信息" rel="君主表信息" url="dynamic/toDynamic">君主表信息</a>
-				    <a class="staticDb" title="玩家装备信息" rel="玩家装备信息" url ="/equipment">玩家装备信息</a>
-				    <a class="staticDb" title="邮件系统" rel="邮件系统" url ="/email/toEmails">邮件系统</a>
-				    <a class="staticDb" title="添加货币" rel="添加货币" url ="/email/addMoney">添加货币</a>
-				    <a class="staticDb" title="添加装备" rel="添加装备" url ="/email/addEquipment">添加装备</a>
-				    <a class="staticDb" title="添加消耗道具" rel="添加消耗道具" url ="/email/addOrdinaryItem">添加消耗道具</a>
+
 				</div>
 				<div title="GM" style="padding:0px;overflow:show">
+					<a class="staticDb" title="本服务器日志" rel="本服务器日志" url="gm/tolog?type=1">本服务器日志</a>
+					<a class="staticDb" title="游戏服务器" rel="游戏服务器" url="gm/tolog?type=2">游戏服务器日志</a>
 				    <a class="staticDb" title="消息接口测试" rel="消息测试" url="/gm/ts">消息接口测试</a>
 				</div>
 			</div>
