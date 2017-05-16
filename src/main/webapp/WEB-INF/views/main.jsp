@@ -52,6 +52,8 @@
 						logData.all = $(".logContent").length;
 
 						$(".logContent").each(function(){
+							var _this_logDive = $(this);
+
 							$.post(url,{
 								type:$(this).attr("rel")
 							} ,function(slist){
@@ -67,7 +69,7 @@
 									return
 								}
 								for(var line in slist){
-									this.append("<p>"+slist[line]+"</p>");
+									_this_logDive.append("<p>"+slist[line]+"</p>");
 								}
 
 								logData.cur = logData.cur+1;
