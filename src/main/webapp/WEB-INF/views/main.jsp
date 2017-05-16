@@ -39,5 +39,50 @@
 				<div title="欢迎进入飞羽游戏管理系统" href="${basePath }/default"></div>
 			</div>
 		</div>
+
+		<script type="text/javascript">
+
+			var logData = {all:0,cur:0};
+			$(document).ready(function(){
+				function checkLog() {
+
+					if($(".logContent").length >0){
+						var url =  formatUrl("/gm/log");
+						logData.all = $(".logContent").length;
+
+						$(".logContent").each(function(){
+							$.post(url,{
+								type:$(this).attr("rel")
+							} ,function(slist){
+								if(slist == null || slist.length == 0){
+									console.log("======>empty");
+									logData.cur = logData.cur+1;
+									if(logData.cur == logData.all){
+										logData.cur = 0;
+										setTimeout(checkLog, 2000);
+									}
+									return
+								}
+								for(var line in slist){
+									$(this).append("<p>"+slist[line]+"</p>");
+								}
+
+								logData.cur = logData.cur+1;
+								if(logData.cur == logData.all){
+									logData.cur = 0;
+									setTimeout(checkLog, 2000);
+								}
+							});
+
+						});
+
+					}else {
+						setTimeout(checkLog, 2000);
+					}
+				}
+
+				setTimeout(checkLog, 1500);
+			});
+		</script>
 </body>
 </html>

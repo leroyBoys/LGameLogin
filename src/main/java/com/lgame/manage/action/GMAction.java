@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/gm")
@@ -133,7 +134,7 @@ public class GMAction {
 	}
 
 
-	@RequestMapping(value={"/log"})
+	@RequestMapping(value={"/log"},method = RequestMethod.POST)
 	@ResponseBody
 	public Object log(int type, HttpServletRequest request, HttpSession session){
 		String path  = "/root/myapp/apps/game/logs/wrapper.log";
@@ -142,12 +143,12 @@ public class GMAction {
 			path = "/root/myapp/server/apache-tomcat-7.0.77/logs/catalina.out";
 		}
 
-		ReadUpdateFile readUpdateFile = (ReadUpdateFile) session.getAttribute("readUpdateFile");
+		ReadUpdateFile readUpdateFile = (ReadUpdateFile) session.getAttribute("readUpdateFile"+type);
 		if(readUpdateFile == null){
 			readUpdateFile = new ReadUpdateFile(path);
-			session.setAttribute("readUpdateFile",readUpdateFile);
+			session.setAttribute("readUpdateFile"+type,readUpdateFile);
 		}
-		return FileTool.readNewUpdaeLines(readUpdateFile);
+		return  FileTool.readNewUpdaeLines(readUpdateFile,"UTF-8");
 	}
 
 	@RequestMapping(value={"/tolog"},method=RequestMethod.GET)

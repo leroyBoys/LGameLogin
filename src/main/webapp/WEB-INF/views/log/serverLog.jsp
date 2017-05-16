@@ -20,41 +20,9 @@
 <body>
 <div  id="content" >
 	<div>
-		<div id="logContent" rel="${logType}">
+		<div class="logContent" rel="${logType}">
 		</div>
 	</div>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			function checkLog() {
-
-				if($("#logContent").length >0){
-					var url =  formatUrl("/gm/log");
-					setTimeout(function () {
-						$.get(url,{
-							type:$("#logContent").attr("rel")
-						} ,function(slist){
-							console.log(slist);
-
-							if(slist == null || slist.length == 0){
-								console.log("======>empty");
-								checkLog();
-								return
-							}
-							for(var line in slist){
-								$("#logContent").append("<p>"+slist[line]+"</p>");
-							}
-							checkLog();
-						});
-
-					} , 2000);
-				}
-			}
-
-			setTimeout(function () {
-				checkLog();
-			} , 1500);
-		});
-	</script>
 
 </div>
 </body>
