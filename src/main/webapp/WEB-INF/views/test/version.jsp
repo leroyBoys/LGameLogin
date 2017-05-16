@@ -15,161 +15,75 @@
 <link rel="stylesheet" type="text/css" href="${basePath }/static/css/style.css"/>
 <script type="text/javascript" src="${basePath }/static/js/util/jquery-1.8.0.min.js"></script>
 <META http-equiv=Content-Type content="text/html; charset=UTF-8">
-<style type="text/css">
-	table.gridtable {
-
-		font-family: verdana,arial,sans-serif;
-
-		font-size:11px;
-
-		color:#333333;
-
-		border-width: 1px;
-
-		border-color: #666666;
-
-		border-collapse: collapse;
-
-	}
-
-	table.gridtable th {
-
-		border-width: 1px;
-
-		padding: 8px;
-
-		border-style: solid;
-
-		border-color: #666666;
-
-		background-color: #dedede;
-
-	}
-
-	table.gridtable td {
-
-		border-width: 1px;
-
-		padding: 8px;
-
-		border-style: solid;
-
-		border-color: #666666;
-
-		background-color: #ffffff;
-
-	}
-</style>
-
-
 <body>
 <div  id="content">
+	<style type="text/css">
+		table.gridtable {
+			font-family: verdana,arial,sans-serif;
+			font-size:11px;
+			color:#333333;
+			border-width: 1px;
+			border-color: #666666;
+			border-collapse: collapse;
+		}
 
+		table.gridtable th {
+			border-width: 1px;
+			padding: 8px;
+			border-style: solid;
+			border-color: #666666;
+			background-color: #dedede;
+		}
+
+		table.gridtable td {
+			border-width: 1px;
+			padding: 8px;
+			border-style: solid;
+			border-color: #666666;
+			background-color: #ffffff;
+		}
+	</style>
+
+	<input type="hidden" id="uid"/>
+	<input type="hidden" id = "key"/>
 	<table class="gridtable">
-		<script type="text/javascript" >
-			function getVerion() {
-				var url = formatUrl("/gameserver/version");
-
-				var data = jsonStr({ version: "0.1.1"
-					, gameId: $("#gameId").val()
-					, srcId: $("#srcId").val()
-				});
-
-				$.post(url,{
-							data:data
-						}
-						,function(data){
-							$("#target2").val(jsonStr(data));
-						});
-			}
-
-
-			function login() {
-				//登录
-				var url =  formatUrl("/gameserver/login");
-				var data = jsonStr({ userName: "tome"
-					, pwd: "sdfsdf"
-					,dev:{
-						plat:"iphone",
-						udid:"xxddsp12",
-						mac:"01-5953-xa",
-						info:"testinfo"
-					}
-				}); //转JSON字符串
-				$.post(url,
-						{ data: data
-						} ,function(s){
-							$("#target2").val(jsonStr(s));
-						});
-			}
-
-			function connect() {
-				//登录
-				var url =  formatUrl("/gm/first");
-				var data = { uid: $("#uid").val()
-					, cmd: 2,
-					msg: $("#target1").val(),
-					key: $("#key").val(),
-					serverId: $("#serverId").val(),
-				}; //转JSON字符串
-
-				console.log(data);
-				$.post(url,data ,function(s){
-					$("#target2").val(jsonStr(s));
-				});
-			}
-
-			function getJsonsss() {
-				//登录
-				var url =  formatUrl("/gm/testmsg");
-				var data = { uid: $("#uid").val(),
-					module:$("#module").val()
-					, cmd: $("#cmd").val(),
-					key: ""
-				}; //转JSON字符串
-
-
-				$.post(url,data ,function(s){
-					$("#target1").val(jsonStr(s));
-				});
-			}
-		</script>
-
 		<tr>
 			<td>注意：</td><td>jsonStr(obj) 返回json字符串;key为空的时候获得相应cmd的json</td>
 		</tr>
 		<tr>
+			<td>srcId:</td><td><input type="text" id = "srcId" value="1"/>  gameId:<input type="text" value="1" id = "gameId"/></td>
+		</tr>
+		<tr>
+			<td>serverId:</td><td>:<input type="text" id="serverId"/></td>
+		</tr>
+		<tr>
+			<td><input value="获取version" type="button"  onclick="getVerion()"/></td>
+			<td><textarea rows="2" cols="150"  id="versions"></textarea></td>
+		</tr>
+
+		<tr>
+			<td>用户名:</td><td><input type="text" id = "userName"/> 密码：<input type="text" id = "userPwd"/>
+			<input value="登录" type="button"  onclick="login()"/> 	<input value="连接服务器" type="button"  onclick="connect()"/> <label id="tipLable"></label></td>
+		</tr>
+
+		<tr>
 			<td><input value="执行内容1代码" type="button"  onclick="doNow()"/></td>
-			<td><input value="获取version" type="button"  onclick="getVerion()"/>
-				<input value="登录" type="button"  onclick="login()"/>
-				<input value="连接服务器" type="button"  onclick="connect()"/>
+			<td>
 				<input value="获得json" type="button"  onclick="getJsonsss()"/>
+				<input value="发送数据" type="button"  onclick="sendmsg()"/>
 			</td>
 		</tr>
-		<tr>
-			<td>srcId:</td><td><input type="text" id = "srcId" value="1"/>  gameId:<input type="text" value="1	" id = "gameId"/></td>
-		</tr>
-		<tr>
-			<td>cmd:</td><td><input type="text" id = "cmd"/>  module: <input type="text" id = "module"/> </td>
-		</tr>
 
 		<tr>
-			<td>uid:</td><td> <input type="text" id="uid"/>   serverId:<input type="text" id="serverId"/></td>
-		</tr>
-
-		<tr>
-			<td>key:</td><td><input type="text" id = "key"/></td>
+			<td>module:</td><td> <input type="text" id = "module" value="0"/> cmd:<input type="text"  value="2" id = "cmd"/> </td>
 		</tr>
 		<tr>
-			<td>id:</td><td><input type="text" id = "id"/></td>
-		</tr>
-		<tr>
-			<td>内容1:</td><td><textarea rows="15" cols="150"  id="target1">
+			<td>内容1:</td><td><textarea rows="3" cols="150"  id="target1">
 
 		</textarea></td>
 		</tr>
 		<tr>
-			<td>返回:</td><td><textarea rows="10" cols="150"  id="target2">
+			<td>返回:</td><td><textarea rows="3" cols="150"  id="target2">
 
 		</textarea></td>
 		</tr>

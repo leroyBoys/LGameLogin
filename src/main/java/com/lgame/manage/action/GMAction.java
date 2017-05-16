@@ -48,6 +48,7 @@ public class GMAction {
 	@RequestMapping(value={"/testmsg"},method = RequestMethod.POST)
 	@ResponseBody
 	public Object testMsg(CmdMsg msg, HttpServletRequest request, HttpSession session){
+
 		int mcd_c = CMDManager.getCmd_M(msg.getModule(),msg.getCmd());
 		CmdEnum cmdEnum = CmdEnum.datas.get(mcd_c);
 		if(cmdEnum == null){
@@ -56,7 +57,10 @@ public class GMAction {
 
 		if(StringTool.isEmpty(msg.getKey())){
 			try {
-				return cmdEnum.getCls().newInstance();
+				Map<String,Object> map = new HashMap<>();
+				map.put("obj",cmdEnum.getCls().newInstance());
+				map.put("json",JsonUtil.getJsonFromBean(map.get("obj")));
+				return map;
 			} catch (Exception e) {
 				e.printStackTrace();
 				return "服务器异常:"+e.getMessage();
@@ -82,7 +86,7 @@ public class GMAction {
 			}
 
 		}
-		return GmUserSessionManager.getInstance().msgReceIves.get(msg.getUid());
+		return GmUserSessionManager.getInstance().getMsg(msg.getUid());
 	}
 
 	@RequestMapping(value={"/first"},method = RequestMethod.POST)
@@ -91,7 +95,10 @@ public class GMAction {
 		CmdEnum cmdEnum = CmdEnum.FirstConnect;
 
 		System.out.println("==login:cmd:"+cmdEnum.getCmd());
-		Object obj = JsonUtil.getBeanFromJson(msg.getMsg(),cmdEnum.getCls());
+		Object obj = null;
+        if(!StringTool.isEmpty(msg.getMsg())){
+            obj = JsonUtil.getBeanFromJson(msg.getMsg(),cmdEnum.getCls());
+        }
 
 		ServerConnection serverConnection = ServerManager.getIntance().getServerConnection(msg.getServerId());
 		if(serverConnection == null){
@@ -99,7 +106,11 @@ public class GMAction {
 		}else {
 			System.out.println("serverId"+msg.getServerId()+" status:"+serverConnection.getRunStatus());
 		}
-		GmUserSessionManager.getInstance().connect(msg.getUid(),msg.getKey(),serverConnection);
+		boolean isSuc = GmUserSessionManager.getInstance().connect(msg.getUid(),msg.getKey(),serverConnection);
+        if(!isSuc){
+            return "connect:id"+msg.getServerId()+"  ip:"+serverConnection.getIp()+":"+serverConnection.getPort()+" failed";
+        }
+
 		ClientServer clientServer = GmUserSessionManager.clenets.get(msg.getUid());
 		if(clientServer == null){
 			return "uid:"+msg.getUid()+" not login";
@@ -116,6 +127,6 @@ public class GMAction {
 			}
 
 		}
-		return GmUserSessionManager.getInstance().msgReceIves.get(msg.getUid());
+		return GmUserSessionManager.getInstance().getMsg(msg.getUid());
 	}
 }

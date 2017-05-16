@@ -5,12 +5,16 @@ import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
 import com.lgame.model.net.CmdEnum;
 import com.lsocket.codec.RequestDecoderClient;
 import com.lsocket.manager.CMDManager;
+import com.module.core.Comment;
+import com.module.core.ResponseCode;
 import com.module.net.NetParentOld;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.Map;
 
 /**
  * Created by leroy:656515489@qq.com
@@ -51,6 +55,27 @@ public class RequestDecoderLocal extends RequestDecoderClient {
             out.write(request);*/
             CmdEnum cmdEnum = CmdEnum.datas.get(cmd_c);
             if(cmdEnum == null){
+                if(commond.getStatus() != 0){
+                    ResponseCode.initCodeValues();
+                    ResponseCode.Error error =  ResponseCode.Error.succ;
+                    for(Map.Entry<Integer,Integer> entry: ResponseCode.codevalues.entrySet()){
+                        if(entry.getValue() == commond.getStatus() ){
+                            error = ResponseCode.Error.valueOf(entry.getKey());
+                        }
+                    }
+
+                    String desc = "";
+                    for (Field field : error.getClass().getFields()) {
+                        if(!field.getName().equals(error.name())){
+                            continue;
+                        }
+                        Comment tip = field.getAnnotation(Comment.class);
+                        if(tip != null){
+                            desc = tip.value();
+                        }
+                    }
+                    out.write("errorcode:" +commond.getStatus()+":"+desc);
+                }
                 System.out.println("cmd:"+cmd+" module:"+module+" cant not find");
                 return input.hasRemaining();
             }

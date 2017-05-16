@@ -32,11 +32,12 @@ public class StaticDataDaoImpl extends BaseDao implements StaticDataDao{
 	private static Logger logger = LoggerFactory.getLogger(StaticDataDaoImpl.class);
 
 	public List<TableHeader> getAllTables(){
-		return jdbcTemplate.execute("{call pr_static_all_table()}", new CallableStatementCallback<List<TableHeader>>() {
+		return jdbcTemplate.execute("select table_name,table_comment,table_rows from information_schema.TABLES where table_schema = ?", new CallableStatementCallback<List<TableHeader>>() {
 			@Override
 			public List<TableHeader> doInCallableStatement(CallableStatement cs) {
 				List<TableHeader> list = new LinkedList<TableHeader>();
 				try {
+					cs.setString(1, "user_center");
 					ResultSet rs = cs.executeQuery();
 					TableHeader temp;
 					while(rs.next()){

@@ -142,7 +142,7 @@ public class LoginServiceImpl implements LoginService {
 		}
 		UserDev dev = userService.insertDev(vcd.getDev().getInfo(), vcd.getDev().getPlat(), vcd.getDev().getMac(), vcd.getDev().getUdid(), 0);
 		SELoginThird l = login(info, dev);
-		return new SELogin(l.getUid(), l.getKey());
+		return new SELogin(l.getUid(), l.getKey(),l.getIpPort());
 	}
 
 	private SELoginThird login(UserInfo info, UserDev dev) {

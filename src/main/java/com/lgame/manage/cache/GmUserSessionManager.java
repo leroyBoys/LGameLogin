@@ -24,13 +24,20 @@ public class GmUserSessionManager {
     public static final Map<Integer,ClientServer> clenets = new HashMap<>();
     public Map<Integer,Object> msgReceIves = new HashMap<>();
 
-    public void connect(int uid,String key,ServerConnection serverConnection){
+    public boolean connect(int uid,String key,ServerConnection serverConnection){
 
         ServerConnection.ServerMonitor serverMonitor = new ServerConnection.ServerMonitor();
         ClientServer clientServer = new ClientServer(serverConnection.getIp(),serverConnection.getPort(),2000,key,new ResponseEncoderLocal(),new RequestDecoderLocal(),serverMonitor);
         clientServer.start();
+        if(clientServer.getSession() == null){
+            return false;
+        }
+
         serverMonitor.setUid(uid);
         clenets.put(uid,clientServer);
+
+        System.out.println("=============>connect suc:uid:"+uid);
+        return true;
     }
 
     public void sendMsg(int uid, BdResponse obj) {
@@ -39,14 +46,21 @@ public class GmUserSessionManager {
 
     public void receive(int uid, Object object) {
         msgReceIves.put(uid,object);
-
+        System.out.println("============>uid"+uid+" msg receiver msg");
         ClientServer clientServer = clenets.get(uid);
         if(clientServer == null){
-            System.out.println("============>uid"+uid+" msg receiver but not fin clent");
+            System.out.println("============>uid"+uid+" msg receiver but not find clent");
             return;
         }
         synchronized (clientServer){
             clientServer.notify();
         }
+    }
+
+    public Object getMsg(int uid) {
+        System.out.println("====remover before:uid:"+uid+" obj:"+msgReceIves.get(uid));
+        Object obj = msgReceIves.remove(uid);
+        System.out.println("====remover after:uid:"+uid+" obj:"+msgReceIves.get(uid));
+        return  obj;
     }
 }

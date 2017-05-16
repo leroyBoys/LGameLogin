@@ -33,23 +33,37 @@ public class GameServerAction {
 
 	@RequestMapping(value={"/register"},method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,String> register(String data , HttpServletRequest request, HttpSession session){
+	public Map<String,Object> register(String data , HttpServletRequest request, HttpSession session){
 		REregister re = (REregister) JsonUtil.getBeanFromJson(data,REregister.class);
 		Object userInfo = loginService.regedister(re);
-		Map<String,String> ret = new HashMap<>();
 		if (userInfo instanceof UserInfo) {
-			ret.put("suc",String.valueOf(((UserInfo)userInfo).getId()));
-			return ret;
+			return getReturnMapData(null,String.valueOf(((UserInfo)userInfo).getId()));
 		}
 
-		ret.put("error",userInfo.toString());
+		return getReturnMapData(userInfo.toString(),null);
+	}
+
+	private Map<String,Object> getReturnMapData(String error,Object data){
+		Map<String,Object> ret = new HashMap<>();
+
+		if(error != null){
+			ret.put("error",error);
+		}else {
+			ret.put("suc",data);
+		}
 		return ret;
 	}
 
 	@RequestMapping(value={"/version"},method = RequestMethod.POST)
 	@ResponseBody
-	public SEVersionCheck versionCheck( String data , HttpServletRequest request, HttpSession session){
-		return loginService.check((REVersionCheck) JsonUtil.getBeanFromJson(data,REVersionCheck.class));
+	public Map<String,Object> versionCheck( String data , HttpServletRequest request, HttpSession session){
+		REVersionCheck checkdata = (REVersionCheck) JsonUtil.getBeanFromJson(data,REVersionCheck.class);
+
+		SEVersionCheck check = loginService.check(checkdata);
+		if(check == null){
+			return this.getReturnMapData("cant find data from srcId:"+checkdata.getSrcId()+"  gameId"+checkdata.getGameId(),null);
+		}
+		return this.getReturnMapData(null,check);
 	}
 
 	/**
@@ -61,26 +75,34 @@ public class GameServerAction {
 	@RequestMapping(value={"/login"},method = RequestMethod.POST )
 	@ResponseBody
 	public Object login(String data, HttpServletRequest request, HttpSession session){
-		return loginService.login((RELogin) JsonUtil.getBeanFromJson(data,RELogin.class));
+
+		Object ret = loginService.login((RELogin) JsonUtil.getBeanFromJson(data,RELogin.class));
+		if(ret != null && ret instanceof SELogin){
+			return this.getReturnMapData(null,ret);
+		}
+		return this.getReturnMapData(ret==null?"null":ret.toString(),null);
 	}
 
 	@RequestMapping(value={"/login_three"},method = RequestMethod.POST )
 	@ResponseBody
 	public Object login_three(String data, HttpServletRequest request, HttpSession session){
-		return loginService.login_three((RELoginThird) JsonUtil.getBeanFromJson(data,RELoginThird.class));
+
+		Object ret = loginService.login_three((RELoginThird) JsonUtil.getBeanFromJson(data,RELoginThird.class));
+		if(ret != null && ret instanceof SELoginThird){
+			return this.getReturnMapData(null,ret);
+		}
+		return this.getReturnMapData(ret==null?"null":ret.toString(),null);
 	}
 
 	@RequestMapping(value={"/modifyPwd"},method = RequestMethod.POST )
 	@ResponseBody
-	public Map<String,String> modifyPwd(String data, HttpServletRequest request, HttpSession session){
+	public Map<String,Object> modifyPwd(String data, HttpServletRequest request, HttpSession session){
 		Object msg = loginService.changePwd(session,(REChangePwd) JsonUtil.getBeanFromJson(data,REChangePwd.class));
-		Map<String,String> ret = new HashMap<>();
 		if(msg instanceof Boolean){
-			ret.put("suc",msg.toString());
+			return this.getReturnMapData(null,msg);
 		}else {
-			ret.put("error",msg.toString());
+			return this.getReturnMapData(msg==null?"null":msg.toString(),null);
 		}
-		return ret;
 	}
 
 }
