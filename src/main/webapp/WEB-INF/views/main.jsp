@@ -52,13 +52,14 @@
 						logData.all = $(".logContent").length;
 
 						$(".logContent").each(function(){
-							var _this_logDive[ $(this).attr("rel")] = $(this);
+							var _this_logDive = new Array();
+							_this_logDive[ $(this).attr("rel")] = $(this);
 
 							$.post(url,{
 								type:$(this).attr("rel")
 							} ,function(slist){
 								console.log(slist);
-								if(slist == null || slist.data.length == 0){
+								if(slist.data == null || slist.data == undefined || slist.data.length == 0){
 									console.log("======>empty"+ slist);
 									logData.cur = logData.cur+1;
 									if(logData.cur == logData.all){
