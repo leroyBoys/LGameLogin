@@ -15,8 +15,8 @@
 <script type="text/javascript" src="${basePath }/static/js/main.js"></script>
 <script type="text/javascript" src="${basePath }/static/js/dynamic.js"></script>
 <script type="text/javascript" src="${basePath }/static/js/addMoney.js"></script>
-	<script type="text/javascript" src="${basePath }/static/js/gm.js" charset="utf-8"></script>
-	<script type="text/javascript" src="${basePath }/static/js/logUpdate.js" charset="utf-8"></script>
+	<script type="text/javascript" src="${basePath }/static/js/gm.js"></script>
+	<script type="text/javascript" src="${basePath }/static/js/logUpdate.js" charset="GBK"></script>
 <title>北京飞羽游戏管理系统</title>
 <script type="text/javascript">
   addStaticDb();
@@ -40,56 +40,5 @@
 			</div>
 		</div>
 
-		<script type="text/javascript">
-
-			var logData = {all:0,cur:0};
-			var timeVes = 1500;
-			$(document).ready(function(){
-				function checkLog() {
-
-					if($(".logContent").length >0){
-						var url =  formatUrl("/gm/log");
-						logData.all = $(".logContent").length;
-
-						$(".logContent").each(function(){
-							var _this_logDive = new Array();
-							_this_logDive[ $(this).attr("rel")] = $(this);
-
-							$.post(url,{
-								type:$(this).attr("rel")
-							} ,function(slist){
-								console.log(slist);
-								if(slist.data == null || slist.data == undefined || slist.data.length == 0){
-									console.log("======>empty"+ slist);
-									logData.cur = logData.cur+1;
-									if(logData.cur == logData.all){
-										logData.cur = 0;
-										timeVes = 5000;
-										setTimeout(checkLog, timeVes);
-									}
-									return
-								}
-								for(var line in slist.data){
-									_this_logDive[slist.type].append("<p>"+slist.data[line]+"</p>");
-								}
-
-								logData.cur = logData.cur+1;
-								if(logData.cur == logData.all){
-									logData.cur = 0;
-									timeVes = 2000;
-									setTimeout(checkLog, timeVes);
-								}
-							});
-
-						});
-
-					}else {
-						setTimeout(checkLog, timeVes);
-					}
-				}
-
-				setTimeout(checkLog, timeVes);
-			});
-		</script>
 </body>
 </html>

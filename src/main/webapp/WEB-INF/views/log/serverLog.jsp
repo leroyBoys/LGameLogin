@@ -19,8 +19,8 @@
 <META http-equiv=Content-Type content="text/html; charset=UTF-8">
 <body>
 <div  id="content" >
-	<div>
-		<div class="logContent" rel="${logType}">
+	<div style="background: #000;width: auto;height: 100%;color: #FFF">
+		<div class="logContent" id="logParent${logType}"  rel="${logType}">
 		</div>
 	</div>
 

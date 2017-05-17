@@ -13,6 +13,7 @@ import com.lgame.model.net.CmdMsg;
 import com.lgame.util.comm.StringTool;
 import com.lgame.util.file.FileTool;
 import com.lgame.util.file.ReadUpdateFile;
+import com.lgame.util.json.JsonTool;
 import com.lgame.util.json.JsonUtil;
 import com.lsocket.core.ClientServer;
 import com.lsocket.manager.CMDManager;
@@ -137,23 +138,30 @@ public class GMAction {
 
 	@RequestMapping(value={"/log"},method = RequestMethod.POST)
 	@ResponseBody
-	public Object log(int type, HttpServletRequest request, HttpSession session){
-		String path  = "/root/myapp/apps/game/logs/wrapper.log";
-
-		if(type == 1){
-			path = "/root/myapp/server/apache-tomcat-7.0.77/logs/catalina.out";
-		}
-
-		ReadUpdateFile readUpdateFile = (ReadUpdateFile) session.getAttribute("readUpdateFile"+type);
-		if(readUpdateFile == null){
-			readUpdateFile = new ReadUpdateFile(path);
-			session.setAttribute("readUpdateFile"+type,readUpdateFile);
-		}
-
+	public Object log(String types, HttpServletRequest request, HttpSession session){
 		Map<String,Object> datas = new HashMap();
-		List<String> upateContent = FileTool.readNewUpdaeLines(readUpdateFile,"UTF-8");
-		datas.put("data",upateContent);
-		datas.put("type",type);
+
+		String[] typeArray = types.split(",");
+		for(String type:typeArray){
+			if(StringTool.isEmpty(type)){
+				continue;
+			}
+
+			String path  = "/root/myapp/apps/game/logs/wrapper.log";
+			if(type.trim().equals("1")){
+				path = "/root/myapp/server/apache-tomcat-7.0.77/logs/catalina.out";
+			}
+
+			ReadUpdateFile readUpdateFile = (ReadUpdateFile) session.getAttribute("readUpdateFile"+type);
+			if(readUpdateFile == null){
+				readUpdateFile = new ReadUpdateFile(path);
+				session.setAttribute("readUpdateFile"+type,readUpdateFile);
+			}
+
+
+			List<String> upateContent = FileTool.readNewUpdaeLines(readUpdateFile,"UTF-8");
+			datas.put(type,upateContent);
+		}
 		return datas;
 	}
 
