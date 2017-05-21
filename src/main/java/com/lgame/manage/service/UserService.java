@@ -12,6 +12,7 @@ public interface UserService {
 
     public UserInfo getUserInfo(String name,String pwd);
 
+    @Deprecated
     public boolean updateUserInfoStatus(int id, String userName, String userPwd, String inviteCode);
 
     public UserInfo insertUserInfo(UserInfo info);

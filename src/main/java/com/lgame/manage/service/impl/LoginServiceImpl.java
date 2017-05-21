@@ -188,20 +188,20 @@ public class LoginServiceImpl implements LoginService {
 			info.setCreateDate(new Date());
 			info.setDeviceId(dev.getId());
 			info.setInviteCode("");
-			info.setIsOnline(false);
+			info.setOnLineType(UserInfo.OnLineType.waitLogin);
 			info.setRole((byte) Type.RoleType.nomal.getValue());
 			info.setUserFromId(uf.getId());
 			info.setUserFromType((byte) FromType.valueOf(uf.getUserSrc()).val());
 
 			info.setUserStatus((byte) Status.UserStatus.normal.getValue());
-			info = userService.insertUserInfo(info);
 
 			String userName = uf.getUserSrc() + info.getId();
 			//String pwd = GameConst.Config.pwd;
 			info.setUserName(userName);
 			info.setUserPwd("dsf3*2s");
 			info.setInviteCode(ShareCodeUtil.toSerialCode(info.getId()));
-			userService.updateUserInfoStatus(info.getId(), info.getUserName(), info.getUserPwd(), info.getInviteCode());
+			info = userService.insertUserInfo(info);
+
 		}
 		return login(info, dev);
 	}
@@ -240,8 +240,7 @@ public class LoginServiceImpl implements LoginService {
 		info = new UserInfo();
 		info.setCreateDate(new Date());
 		info.setDeviceId(dev.getId());
-		info.setInviteCode("");
-		info.setIsOnline(false);
+		info.setOnLineType(UserInfo.OnLineType.waitLogin);
 		info.setRole((byte) Type.RoleType.nomal.getValue());
 		info.setUserFromId(0);
 		info.setUserFromType((byte) FromType.self.val());
@@ -249,10 +248,9 @@ public class LoginServiceImpl implements LoginService {
 		info.setUserPwd(re.getPwd());
 
 		info.setUserStatus((byte) Status.UserStatus.normal.getValue());
+		info.setInviteCode(ShareCodeUtil.toSerialCode(info.getId()));
 		info = userService.insertUserInfo(info);
 
-		info.setInviteCode(ShareCodeUtil.toSerialCode(info.getId()));
-		userService.updateUserInfoStatus(info.getId(), info.getUserName(), info.getUserPwd(), info.getInviteCode());
 
 		return info;
 	}

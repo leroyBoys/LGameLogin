@@ -12,6 +12,7 @@ public enum CmdEnum {
     FirstConnect(CMDManager.getCmd_M(0,2),NetFirstConnect.class, RQConnect.class),
     CreateRoom(CMDManager.getCmd_M(10,1),RPCreateRoom.class,RQCreateRoom.class),
     JoinRoom(CMDManager.getCmd_M(10,2),RPEnterRoom.class,RQEnterRoom.class),
+    ExitRoom(CMDManager.getCmd_M(10,2),null,RQExit.class),
     ;
 
     private final int cmd;

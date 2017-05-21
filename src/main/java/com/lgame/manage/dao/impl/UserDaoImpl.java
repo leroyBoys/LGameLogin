@@ -127,7 +127,7 @@ public class UserDaoImpl extends BaseDao implements UserDao{
 
     @Override
     public void updateUserInfoLastDev(int uid, int devId) {
-        this.executeUpdate(jdbcTemplate,"UPDATE user_info SET device_id = ? WHERE id = ?",devId,uid);
+        this.executeUpdate(jdbcTemplate,"UPDATE user_info SET device_id = ?,is_online=0  WHERE id = ?",devId,uid);
     }
 
     @Override
