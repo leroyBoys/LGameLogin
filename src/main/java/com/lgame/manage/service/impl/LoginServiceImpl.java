@@ -8,6 +8,7 @@ import com.lgame.manage.service.UserService;
 import com.lgame.model.*;
 import com.lgame.util.comm.StringTool;
 import com.lgame.util.comm.Tools;
+import com.lgame.util.encry.MD5Tool;
 import com.lgame.util.time.DateTimeTool;
 import com.lgame.util.unique.ShareCodeUtil;
 import com.lgame.utils.AppException;
@@ -135,11 +136,24 @@ public class LoginServiceImpl implements LoginService {
 			return "登陆设备信息不能为空！";
 		}
 
-		UserInfo info = userService.getUserInfo(vcd.getUserName(),vcd.getPwd());
+		UserInfo info = userService.getUserInfo(vcd.getUserName());
 		if (info == null) {
 			System.out.println(vcd.getUserName() + " 的玩家不存在！");
-			return vcd.getUserName() + " 的玩家不存在！";
+			return "用户不存在或者密码错误！";
 		}
+
+		if(StringTool.isEmpty(vcd.getPwd())){
+			if(StringTool.isEmpty(info.getUserPwd())){
+				return info;
+			}
+			System.out.println(vcd.getUserName() + "密码错误！");
+			return "用户不存在或者密码错误！";
+		}else if(!MD5Tool.GetMD5Code(vcd.getPwd()).equals(info.getUserPwd())){
+			System.out.println(vcd.getUserName() + "密码错误！");
+			return "用户不存在或者密码错误！";
+		}
+
+
 		UserDev dev = userService.insertDev(vcd.getDev().getInfo(), vcd.getDev().getPlat(), vcd.getDev().getMac(), vcd.getDev().getUdid(), 0);
 		SELoginThird l = login(info, dev);
 		return new SELogin(l.getUid(), l.getKey(),l.getIpPort());
@@ -198,7 +212,7 @@ public class LoginServiceImpl implements LoginService {
 			String userName = uf.getUserSrc() + info.getId();
 			//String pwd = GameConst.Config.pwd;
 			info.setUserName(userName);
-			info.setUserPwd("dsf3*2s");
+			info.setUserPwd(MD5Tool.GetMD5Code("dsf3*2s"));
 			info.setInviteCode(ShareCodeUtil.toSerialCode(info.getId()));
 			info = userService.insertUserInfo(info);
 
@@ -245,7 +259,7 @@ public class LoginServiceImpl implements LoginService {
 		info.setUserFromId(0);
 		info.setUserFromType((byte) FromType.self.val());
 		info.setUserName(re.getName());
-		info.setUserPwd(re.getPwd());
+		info.setUserPwd(MD5Tool.GetMD5Code(re.getPwd()));
 
 		info.setUserStatus((byte) Status.UserStatus.normal.getValue());
 		info.setInviteCode(ShareCodeUtil.toSerialCode(info.getId()));
@@ -258,12 +272,14 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public Object changePwd(HttpSession session, REChangePwd vcd) {
 		String code = vcd.getCode();
-		UserInfo info = userService.getUserInfo(vcd.getName(),vcd.getOldPwd());
+		UserInfo info = userService.getUserInfo(vcd.getName());
 		if (info == null) {
+			return "用户不存在或者密码错误";
+		}else if(StringTool.isEmpty(vcd.getOldPwd()) && !StringTool.isEmpty(info.getUserPwd())){
 			return "用户不存在或者密码错误";
 		}
 
-		info.setUserPwd(vcd.getNewPwd());
+		info.setUserPwd(MD5Tool.GetMD5Code(vcd.getNewPwd()));
 		boolean suc = userService.updatepwd(info.getId(), vcd.getNewPwd());
 		if (suc) {
 			System.out.println("===================" + suc);

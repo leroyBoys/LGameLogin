@@ -9,8 +9,6 @@ import com.module.db.UserInfo;
 public interface UserDao {
     public UserInfo getUserInfo(String name);
 
-    public UserInfo getUserInfo(String name, String pwd);
-
     public boolean updateUserInfoStatus(int uid, String userName, String pwd, String invite_code);
 
     public int findDevId(String device_mc, String udid);

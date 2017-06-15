@@ -10,8 +10,6 @@ import com.module.net.DB;
 public interface UserService {
     public UserInfo getUserInfo(String name);
 
-    public UserInfo getUserInfo(String name,String pwd);
-
     @Deprecated
     public boolean updateUserInfoStatus(int id, String userName, String userPwd, String inviteCode);
 

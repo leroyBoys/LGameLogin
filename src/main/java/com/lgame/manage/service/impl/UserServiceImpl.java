@@ -3,6 +3,7 @@ package com.lgame.manage.service.impl;
 import com.lgame.manage.dao.UserDao;
 import com.lgame.manage.dao.UserRedis;
 import com.lgame.manage.service.UserService;
+import com.lgame.util.comm.StringTool;
 import com.module.db.UserDev;
 import com.module.db.UserInfo;
 import com.module.net.DB;
@@ -24,11 +25,6 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserInfo getUserInfo(String name) {
         return userDao.getUserInfo(name);
-    }
-
-    @Override
-    public UserInfo getUserInfo(String name, String pwd) {
-        return userDao.getUserInfo(name,pwd);
     }
 
     @Override

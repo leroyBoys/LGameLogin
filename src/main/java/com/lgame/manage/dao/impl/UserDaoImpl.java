@@ -29,15 +29,6 @@ public class UserDaoImpl extends BaseDao implements UserDao{
     }
 
     @Override
-    public UserInfo getUserInfo(String name, String pwd) {
-        UserInfo info = getUserInfoFromDb("SELECT * FROM user_info WHERE user_name ='"+name+"' and user_pwd = '"+pwd+"'");
-        if(info != null && name.equals(info.getUserName())){
-            return info;
-        }
-        return null;
-    }
-
-    @Override
     public boolean updateUserInfoStatus(int uid, String userName, String pwd, String invite_code) {
         return this.executeUpdate(jdbcTemplate,"CALL SET_USERINFO_AGAIN (?,?,?,?)",  uid, userName, pwd, invite_code);
     }
