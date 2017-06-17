@@ -1,6 +1,7 @@
 package com.lgame.filter;
 
 import com.lgame.utils.AppException;
+import com.logger.log.SystemLogger;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +33,9 @@ public class RepeateRequsetFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp,FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpSession session = request.getSession();
+        long startTime = System.currentTimeMillis();
         String uri = request.getServletPath();
+        SystemLogger.info(this.getClass(),"receive:"+uri);
 
         try {
             if(session.getAttribute(uri) != null){
@@ -42,9 +45,10 @@ public class RepeateRequsetFilter implements Filter {
             session.setAttribute(uri,1);
             chain.doFilter(req, resp);
         }catch (Exception e){
-
+            e.printStackTrace();
         }finally {
             session.removeAttribute(uri);
+            SystemLogger.info(this.getClass(),uri+":耗时:"+(System.currentTimeMillis()-startTime)+" ms");
         }
 
     }

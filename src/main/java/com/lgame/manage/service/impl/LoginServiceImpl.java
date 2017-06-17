@@ -143,11 +143,10 @@ public class LoginServiceImpl implements LoginService {
 		}
 
 		if(StringTool.isEmpty(vcd.getPwd())){
-			if(StringTool.isEmpty(info.getUserPwd())){
-				return info;
+			if(!StringTool.isEmpty(info.getUserPwd())){
+				System.out.println(vcd.getUserName() + "密码错误！");
+				return "用户不存在或者密码错误！";
 			}
-			System.out.println(vcd.getUserName() + "密码错误！");
-			return "用户不存在或者密码错误！";
 		}else if(!MD5Tool.GetMD5Code(vcd.getPwd()).equals(info.getUserPwd())){
 			System.out.println(vcd.getUserName() + "密码错误！");
 			return "用户不存在或者密码错误！";
