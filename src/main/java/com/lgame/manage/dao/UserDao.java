@@ -1,6 +1,7 @@
 package com.lgame.manage.dao;
 
 import com.module.db.UserDev;
+import com.module.db.UserFrom;
 import com.module.db.UserInfo;
 
 /**
@@ -24,4 +25,8 @@ public interface UserDao {
     public UserInfo getUserInfoByUserFormId(int formId);
 
     public boolean updatepwd(int id, String newPwd);
+
+    public int getUserFrom(String userSrc);
+
+    public int insertFrom(UserFrom from);
 }

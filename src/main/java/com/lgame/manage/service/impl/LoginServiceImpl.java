@@ -5,6 +5,9 @@ import com.lgame.manage.cache.ServerManager;
 import com.lgame.manage.service.LoginService;
 import com.lgame.manage.service.ServerService;
 import com.lgame.manage.service.UserService;
+import com.lgame.manage.service.three.entity.ThreeFromData;
+import com.lgame.manage.service.three.entity.ThreeFromUserData;
+import com.lgame.manage.service.three.ThreeManager;
 import com.lgame.model.*;
 import com.lgame.util.comm.StringTool;
 import com.lgame.util.comm.Tools;
@@ -184,16 +187,51 @@ public class LoginServiceImpl implements LoginService {
 
 
 	@Override
-	public SELoginThird login_three(RELoginThird vcd) {
+	public Object login_three(RELoginThird vcd) {
 		if (vcd.getDev() == null) {
 			System.out.println( "登陆设备信息不能为空！");
-			return null;
+			return "登陆设备信息不能为空！";
 		}
-		UserFrom uf = checkThree(vcd.getThirdKey(), vcd.getUkey());
-		if (uf == null) {
-			return null;
+
+		String tag = vcd.getThirdKey().substring(vcd.getThirdKey().lastIndexOf("_"));
+		FromType fromType = FromType.valueOf(tag);
+		if(fromType == null){
+			return "参数错误";
 		}
-		UserInfo info = userService.getUserInfoByUserFormId(uf.getId());
+
+		String thirdKey = vcd.getThirdKey().substring(0, vcd.getThirdKey().lastIndexOf("_"));
+		String ukey = vcd.getUkey();
+
+		if(StringTool.isEmpty(ukey)){
+			ThreeFromData threeFromData = ThreeManager.getInstance().checkUser(fromType,thirdKey);
+			if(threeFromData == null){
+				System.out.println( "授权失败，参数错误");
+				return null;
+			}
+			thirdKey = threeFromData.getThirdKey();
+			ukey = threeFromData.getUkey();
+		}else if(!ThreeManager.getInstance().checkUser(fromType,thirdKey,ukey)){
+			System.out.println( "授权失败，需要重新授权");
+			return "授权失败，需要重新授权";
+		}
+
+		int formId = userService.getUserFrom(ukey);
+		ThreeFromUserData threeFromUserData = null;
+		if(formId <= 0){//未注册
+			UserFrom userFrom = new UserFrom();
+			userFrom.setCreateDate(new Date());
+			userFrom.setInfo(tag);
+
+			threeFromUserData = ThreeManager.getInstance().getThreeFromUserData(fromType,thirdKey,ukey);
+			userFrom.setSerialNum(threeFromUserData.getUnionid());//serialNum==>unionid
+			userFrom.setUserSrc(threeFromUserData.getUkey());//userSrc==>openid(ukey)
+			formId = userService.insertFrom(userFrom);
+			if(formId == 0){
+				return "注册失败";
+			}
+		}
+
+		UserInfo info = userService.getUserInfoByUserFormId(formId);
 		UserDev dev = userService.insertDev(vcd.getDev().getInfo(), vcd.getDev().getPlat(), vcd.getDev().getMac(), vcd.getDev().getUdid(), 0);
 		if (info == null) {
 			//第三方注册
@@ -203,43 +241,25 @@ public class LoginServiceImpl implements LoginService {
 			info.setInviteCode("");
 			info.setOnLineType(UserInfo.OnLineType.waitLogin);
 			info.setRole((byte) Type.RoleType.nomal.getValue());
-			info.setUserFromId(uf.getId());
-			info.setUserFromType((byte) FromType.valueOf(uf.getUserSrc()).val());
 
+			if(threeFromUserData == null){
+				threeFromUserData = ThreeManager.getInstance().getThreeFromUserData(fromType,thirdKey,ukey);
+			}
+
+			info.setUserFromId(formId);
+			info.setUserFromType((byte)fromType.val());
 			info.setUserStatus((byte) Status.UserStatus.normal.getValue());
 
-			String userName = uf.getUserSrc() + info.getId();
+			String userName = threeFromUserData.getNickname()+"_"+formId;
 			//String pwd = GameConst.Config.pwd;
 			info.setUserName(userName);
 			info.setUserPwd(MD5Tool.GetMD5Code("dsf3*2s"));
 			info.setInviteCode(ShareCodeUtil.toSerialCode(info.getId()));
 			info = userService.insertUserInfo(info);
 
+			userService.addDefalutGameRoleDetail(info.getId(),userName,threeFromUserData.getSex(),threeFromUserData.getHeadimgurl());
 		}
 		return login(info, dev);
-	}
-
-	private UserFrom checkThree(String thirdKey, String ukey) {
-		UserFrom uf = null;
-		String tag = thirdKey.substring(thirdKey.lastIndexOf("_"));
-		String oldKey = thirdKey.substring(0, thirdKey.lastIndexOf("_"));
-		FromType t = FromType.valueOf(tag);
-		boolean isRight = false;
-		String info = null;
-
-		if (t == FromType.tx) {
-
-		} else if (t == FromType.safe) {
-
-		} else {
-
-		}
-		if (!isRight) {
-			return null;
-		}
-		uf = new UserFrom(0, ukey, info, info, new Date());
-
-		return uf;
 	}
 
 	@Override

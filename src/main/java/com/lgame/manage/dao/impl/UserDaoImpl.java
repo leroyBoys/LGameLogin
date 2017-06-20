@@ -4,6 +4,7 @@ import com.lgame.base.dao.BaseDao;
 import com.lgame.manage.dao.UserDao;
 import com.lgame.util.comm.StringTool;
 import com.module.db.UserDev;
+import com.module.db.UserFrom;
 import com.module.db.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -95,7 +96,6 @@ public class UserDaoImpl extends BaseDao implements UserDao{
 
     private UserInfo getUserInfoFromDb(String sql) {
         try {
-
             return jdbcTemplate.execute(sql, new PreparedStatementCallback<UserInfo>() {
                 @Override
                 public UserInfo doInPreparedStatement(PreparedStatement cs) throws SQLException, DataAccessException {
@@ -111,6 +111,7 @@ public class UserDaoImpl extends BaseDao implements UserDao{
                 }
             });
         } catch (Exception ex) {
+            ex.printStackTrace();
         } finally {
         }
         return null;
@@ -129,5 +130,34 @@ public class UserDaoImpl extends BaseDao implements UserDao{
     @Override
     public boolean updatepwd(int id, String newPwd) {
         return this.executeUpdate(jdbcTemplate,"UPDATE user_info SET user_pwd = ? WHERE id = ?",newPwd,id);
+    }
+
+    @Override
+    public int getUserFrom(String userSrc) {
+        try {
+            Object obj = this.executesOneResult(jdbcTemplate,"SELECT id FROM `user_from` WHERE user_src = ? ",userSrc);
+            if(obj == null){
+                return 0;
+            }
+
+            return (int) obj;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+        }
+        return 0;
+    }
+
+    @Override
+    public int insertFrom(UserFrom from) {
+        try {
+            int id = this.insert(jdbcTemplate,"INSERT INTO user_from(user_src,serial_num,info,create_date)VALUES(?,?,?,?)",
+                    from.getUserSrc(), from.getSerialNum(), from.getInfo(), from.getCreateDate());
+            return id;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+        }
+        return 0;
     }
 }

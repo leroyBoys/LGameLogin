@@ -5,6 +5,7 @@ import com.lgame.manage.dao.UserRedis;
 import com.lgame.manage.service.UserService;
 import com.lgame.util.comm.StringTool;
 import com.module.db.UserDev;
+import com.module.db.UserFrom;
 import com.module.db.UserInfo;
 import com.module.net.DB;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,5 +91,20 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean updatepwd(int id, String newPwd) {
         return userDao.updatepwd(id,newPwd);
+    }
+
+    @Override
+    public int getUserFrom(String userSrc) {
+        return userDao.getUserFrom(userSrc);
+    }
+
+    @Override
+    public int insertFrom(UserFrom from) {
+        return userDao.insertFrom(from);
+    }
+
+    @Override
+    public void addDefalutGameRoleDetail(int uid,String userName, String sex, String headimgurl) {
+        userRdis.addDefalutGameRoleDetail(uid,userName,sex,headimgurl);
     }
 }

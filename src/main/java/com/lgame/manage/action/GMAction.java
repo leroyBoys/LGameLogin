@@ -85,7 +85,7 @@ public class GMAction {
 			response.setCmd(mcd_c);
 			GmUserSessionManager.getInstance().sendMsg(msg.getUid(),response);
 			try {
-				clientServer.wait(10000);
+				clientServer.wait(5000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -126,7 +126,7 @@ public class GMAction {
 			response.setCmd(cmdEnum.getCmd());
 			GmUserSessionManager.getInstance().sendMsg(msg.getUid(),response);
 			try {
-				clientServer.wait(10000);
+				clientServer.wait(5000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

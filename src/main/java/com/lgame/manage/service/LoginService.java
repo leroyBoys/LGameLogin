@@ -20,7 +20,7 @@ public interface LoginService {
 
 	public Object login(RELogin vcd);
 
-	public SELoginThird login_three(RELoginThird vcd);
+	public Object login_three(RELoginThird vcd);
 
 	public Object regedister(REregister re);
 

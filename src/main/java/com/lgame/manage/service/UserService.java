@@ -1,6 +1,7 @@
 package com.lgame.manage.service;
 
 import com.module.db.UserDev;
+import com.module.db.UserFrom;
 import com.module.db.UserInfo;
 import com.module.net.DB;
 
@@ -28,4 +29,10 @@ public interface UserService {
     public UserInfo getUserInfoByUserFormId(int id);
 
     public boolean updatepwd(int id, String newPwd);
+
+    public int getUserFrom(String userSrc);
+
+    public int insertFrom(UserFrom from);
+
+    public void addDefalutGameRoleDetail(int uid,String userName, String sex, String headimgurl);
 }
