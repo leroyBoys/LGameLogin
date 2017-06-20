@@ -35,7 +35,11 @@ public class RepeateRequsetFilter implements Filter {
         HttpSession session = request.getSession();
         long startTime = System.currentTimeMillis();
         String uri = request.getServletPath();
-        SystemLogger.info(this.getClass(),"receive:"+uri);
+
+        boolean isLog =uri.startsWith("/gm");
+        if(!isLog){
+            SystemLogger.info(this.getClass(),"receive:"+uri);
+        }
 
         try {
             if(session.getAttribute(uri) != null){
@@ -48,7 +52,9 @@ public class RepeateRequsetFilter implements Filter {
             e.printStackTrace();
         }finally {
             session.removeAttribute(uri);
-            SystemLogger.info(this.getClass(),uri+":耗时:"+(System.currentTimeMillis()-startTime)+" ms");
+            if(!isLog){
+                SystemLogger.info(this.getClass(),uri+":耗时:"+(System.currentTimeMillis()-startTime)+" ms");
+            }
         }
 
     }

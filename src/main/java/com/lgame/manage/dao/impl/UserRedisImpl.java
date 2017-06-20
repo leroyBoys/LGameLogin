@@ -46,6 +46,7 @@ public class UserRedisImpl implements UserRedis {
         String key = "GameRole"+uid;
         RoleInfo roleInfo = new RoleInfo();
         roleInfo.setHeadImage(headimgurl);
+        roleInfo.setUid(uid);
         roleInfo.setUserAlise(userName);
         roleInfo.setUserSex(Integer.valueOf(sex));
         redisClient.set(key, JsonUtil.getJsonFromBean(roleInfo));
