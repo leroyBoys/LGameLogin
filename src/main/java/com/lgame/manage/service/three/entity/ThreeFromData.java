@@ -9,6 +9,7 @@ import java.util.Map;
 public class ThreeFromData {
     private String thirdKey;
     private String ukey;//本app中用户的唯一识别信息
+    private String refresh_token;
     private Map<String,String> paramters;//其他参数
 
     public ThreeFromData(String thirdKey, String ukey) {
@@ -20,6 +21,13 @@ public class ThreeFromData {
         return thirdKey;
     }
 
+    public String getRefresh_token() {
+        return refresh_token;
+    }
+
+    public void setRefresh_token(String refresh_token) {
+        this.refresh_token = refresh_token;
+    }
 
     public Map<String, String> getParamters() {
         return paramters;

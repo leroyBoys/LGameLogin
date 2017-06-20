@@ -88,10 +88,11 @@ public class GameServerAction {
 	public Object login_three(String data, HttpServletRequest request, HttpSession session){
 
 		Object ret = loginService.login_three((RELoginThird) JsonUtil.getBeanFromJson(data,RELoginThird.class));
-		if(ret != null && ret instanceof SELoginThird){
-			return this.getReturnMapData(null,ret);
+		if(ret == null || ret instanceof String){
+			return this.getReturnMapData(ret==null?"null":ret.toString(),null);
 		}
-		return this.getReturnMapData(ret==null?"null":ret.toString(),null);
+
+		return this.getReturnMapData(null,ret);
 	}
 
 	@RequestMapping(value={"/modifyPwd"},method = RequestMethod.POST )

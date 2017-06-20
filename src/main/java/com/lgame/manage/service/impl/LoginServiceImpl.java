@@ -26,9 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -202,6 +200,7 @@ public class LoginServiceImpl implements LoginService {
 		String thirdKey = vcd.getThirdKey().substring(0, vcd.getThirdKey().lastIndexOf("_"));
 		String ukey = vcd.getUkey();
 
+		Map<String,Object> retData = new HashMap<>();
 		if(StringTool.isEmpty(ukey)){
 			ThreeFromData threeFromData = ThreeManager.getInstance().checkUser(fromType,thirdKey);
 			if(threeFromData == null){
@@ -210,9 +209,12 @@ public class LoginServiceImpl implements LoginService {
 			}
 			thirdKey = threeFromData.getThirdKey();
 			ukey = threeFromData.getUkey();
+			retData.put("thirdKey",thirdKey);
+			retData.put("ukey",ukey);
+			retData.put("refreshToken",threeFromData.getRefresh_token());
 		}else if(!ThreeManager.getInstance().checkUser(fromType,thirdKey,ukey)){
 			System.out.println( "授权失败，需要重新授权");
-			return "授权失败，需要重新授权";
+			return "0";
 		}
 
 		int formId = userService.getUserFrom(ukey);
@@ -259,7 +261,9 @@ public class LoginServiceImpl implements LoginService {
 
 			userService.addDefalutGameRoleDetail(info.getId(),userName,threeFromUserData.getSex(),threeFromUserData.getHeadimgurl());
 		}
-		return login(info, dev);
+		SELoginThird se = login(info, dev);
+		retData.put("loginData",se);
+		return retData;
 	}
 
 	@Override

@@ -38,6 +38,7 @@ public class WeiXinFrom implements ThreeFrom {
         if (res.get("errcode") == null) {
 
             ThreeFromData threeFromData = new ThreeFromData(res.get("access_token"),res.get("openid"));
+            threeFromData.setRefresh_token(res.get("refresh_token"));
             return threeFromData;
         }
         return null;
