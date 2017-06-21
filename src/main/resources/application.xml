@@ -28,6 +28,25 @@
 	<context:component-scan base-package="com.*">
 		<context:exclude-filter type="regex" expression="com.util.*"/>
 	</context:component-scan>
+
+	<!-- 启动SpringMVC的注解功能，完成请求和注解POJO的映射 -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list >
+				<ref bean="mappingJacksonHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	<!-- 避免IE执行ajax时，返回json出现下载文件 -->
+	<bean id="mappingJacksonHttpMessageConverter"
+		  class="com.lgame.filter.JsonConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+
 	<mvc:annotation-driven />
 	<task:annotation-driven />
 	<!-- 管理静态资源 -->
