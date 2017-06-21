@@ -1,5 +1,6 @@
 package com.lgame.filter;
 
+import com.lgame.util.json.JsonUtil;
 import com.lgame.utils.AppException;
 import com.logger.log.SystemLogger;
 
@@ -38,7 +39,7 @@ public class RepeateRequsetFilter implements Filter {
 
         boolean isLog =uri.startsWith("/gm");
         if(!isLog){
-            SystemLogger.info(this.getClass(),"receive:"+uri);
+            SystemLogger.info(this.getClass(),"receive:"+uri+" parameters:"+ JsonUtil.getJsonFromBean(request.getParameterMap()));
         }
 
         try {
