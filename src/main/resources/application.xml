@@ -40,11 +40,6 @@
 	<!-- 避免IE执行ajax时，返回json出现下载文件 -->
 	<bean id="mappingJacksonHttpMessageConverter"
 		  class="com.lgame.filter.JsonConverter">
-		<property name="supportedMediaTypes">
-			<list>
-				<value>text/html;charset=UTF-8</value>
-			</list>
-		</property>
 	</bean>
 
 	<mvc:annotation-driven />
